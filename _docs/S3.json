@@ -1,0 +1,9 @@
+{
+   "story_state": "P",
+   "story_tags": [
+       "performance",
+       "couchdb"
+   ],
+   "story_name": "View Profiler",
+   "story_description": "Write a profiler for CouchDB views - build on CouchApp?"
+}
