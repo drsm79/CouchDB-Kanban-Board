@@ -1,0 +1,51 @@
+<html>
+  <head>
+    <title>Couch Kanban Board: Story {{{story_name}}}</title>
+    <style type="text/css">
+    	#P { background-color: #FFFF00  ; color: #000000;}
+    	#P_Q { background-color: #F0F0F0; color: #606060;}
+    	#D { background-color: #FFC300; color: #000000;}
+    	#D_Q { background-color: #F0F0F0; color: #606060;}
+    	#DE { background-color: #B5DBFF  ; color: #000000;}
+    	#DE_Q { background-color: #F0F0F0; color: #606060;}
+    	#T { background-color: #A5C700; color: #ffffff;}
+    	#T_Q { background-color: #F0F0F0; color: #606060;}
+    	#R { background-color: #9CCFFF  ; color: #000000;}
+    	#R_Q { background-color: #F0F0F0; color: #606060;}
+    	.button { background-color: #e0e0e0; color: #a0a0a0; padding: 0.2em; text-decoration: none;}
+      .placeholder {border: 1px solid black; }
+      ul { list-style: none; margin: 0 0 0 0; padding: 0 0 0 0;}
+   	  body { font-family: Helvetica; }
+      .box{ padding: 0.2em; border: 1px solid black; margin-bottom: 1em; margin-right: 5px;}
+      .dp10 {width:9%;  float:left;  display: inline;  *margin-right:-1px; }
+      .clear {clear:both;}
+      .headline { font-weight: bold; height: 3em; color: #000000;}
+      .queue_column .headline { font-weight: bold; height: 3em; color: #d0d0d0;}
+      .footer { font-size: 80%; color: #808080; padding-top: 5em;}
+      p {align:left;}
+    </style>
+  </head>
+  <body>
+    <center>
+      <div style="width:75%">
+        <form id="update-story">
+          <input type="hidden" name="_id" value="{{_id}}"/>
+          <input type="hidden" name="_rev" value="{{_rev}}"/>
+          <input type="hidden" name="story_state" value="{{story_state}}"/>
+        <h1 class="box" id="{{story_state}}">{{story_name}}</h1>
+        <p align="left">{{story_description}}</p>
+        <h2 align="left">Tags</h2>
+        <ul align="left">
+          {{#story_tags}}
+          <li align="left">{{.}}</li>
+          {{/story_tags}}
+        </ul>
+        </form>
+        <p align="left"><a href="index.html">Back to the board</a></p>
+      </div>
+    </center>
+    <p>TODO: edit the story from this page</p>
+    <button class="save">Save Document</button>
+  </body>
+</html>
+
