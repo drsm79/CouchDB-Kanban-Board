@@ -15,15 +15,6 @@
 <script src="scripts/jquery.dragsort-0.4.1.js"></script>
 </head><body>
 
-<!-- The data for the stories -->
-
-<div id="stories_container" style="visibility: hidden;"></div>
-
-<!-- Names and shortcuts for the different states:
-    Shortcut,Name
-    They will be displayed in this order
-	 -->
-<div id="states_container" style="visibility: hidden;"></div>
 
 <img style="float:right;" src="data:image/png;base64,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" alt="Simple Kanban Logo"/>
 <!-- The HTML starts here -->
@@ -31,49 +22,27 @@
 <a id="board_link" class="button" href="#" style="float:right;">Board</a>
 <h1>Kanban Board</h1>
 <div id="output"></div>
-<div class="clear"></div>
 
-<textarea id="data_output" rows="20" cols="100">
-</textarea>
-<!-- The HTML ends here -->
+<textarea id="data_output" rows="20" cols="100"></textarea>
+<div id="stories_container" style="visibility: hidden;"></div>
+<div id="states_container" style="visibility: hidden;"></div>
 
-<!-- Color definitions for the boxes. Queues are all grey to not distract
-     from the real work being done -->
 <style type="text/css">
-<!--
-	#P .box { background-color: #FFFF00  ; color: #000000;}
-	#P_Q .box { background-color: #F0F0F0; color: #606060;}
-	#D .box { background-color: #FFC300; color: #000000;}
-	#D_Q .box { background-color: #F0F0F0; color: #606060;}
-	#DE .box { background-color: #B5DBFF  ; color: #000000;}
-	#DE_Q .box { background-color: #F0F0F0; color: #606060;}
-	#T .box { background-color: #A5C700; color: #ffffff;}
-	#T_Q .box { background-color: #F0F0F0; color: #606060;}
-	#R .box { background-color: #9CCFFF  ; color: #000000;}
-	#R_Q .box { background-color: #F0F0F0; color: #606060;}
-	-->
-</style>
-
-<!-- HERE ARE DRAGONS, DON'T CHANGE ! -->
-
-<!-- Layout from the 1-line Grid Framework,
-     http://www.vcarrer.com/2009/06/1-line-css-grid-framework.html -->
-<style type="text/css">
-<!--
     .button { background-color: #e0e0e0; color: #a0a0a0; padding: 0.2em; text-decoration: none;}
     .placeholder {border: 1px solid black; }
-     ul { list-style: none; margin: 0 0 0 0; padding: 0 0 0 0;}
-	 body { font-family: Helvetica; }
-	 .box { font-size: 80%; padding: 0.2em; border: 1px solid black; margin-bottom: 1em; margin-right: 5px;}
-	 .dp10 {width:9%;  float:left;  display: inline;  *margin-right:-1px; }
-	 .clear {clear:both;}
-	 .headline { font-weight: bold; height: 3em; color: #000000;}
-	 .queue_column .headline { font-weight: bold; height: 3em; color: #d0d0d0;}
-	 .footer { font-size: 80%; color: #808080; padding-top: 5em;}
-
-
-	 -->
+    ul { list-style: none; margin: 0 0 0 0; padding: 0 0 0 0;}
+	body { font-family: Helvetica; }
+	.box { font-size: 80%; padding: 0.2em; border: 1px solid black; margin-bottom: 1em; margin-right: 5px;}
+	.dp10 {width:9%;  float:left;  display: inline;  *margin-right:-1px; }
+	.clear {clear:both;}
+	.headline { font-weight: bold; height: 3em; color: #000000;}
+	.queue_column .headline { font-weight: bold; height: 3em; color: #d0d0d0;}
+	.footer { font-size: 80%; color: #808080; padding-top: 5em;}
+	#tag_cloud  { font-size: 80%; color: #404040; margin-top: 5em;width:40%;}
 </style>
+<center>
+<div id="tag_cloud"></div>
+</center>
 <script language="JavaScript">
 $("#board_link").hide();
 $("#data_output").hide();
@@ -107,23 +76,23 @@ var init_board = function(stories) {
 }
 
 var create_list = function(board, state) {
-	   var list = $("<ul class=\"state\" id=\"" + state + "\"></ul>");
-       if (board[state]) {
-         for (var i=0, len=board[state].length; i<len; i++) {
-            var story_element = $("<li><div class=\"box box_" + state  + "\">" + board[state][i][1] + " " + board[state][i][2] + "</div></li>");
-            story_element.data("story",  board[state][i]);
+	var list = $("<ul class=\"state\" id=\"" + state + "\"></ul>");
+  if (board[state]) {
+    for (var i=0, len=board[state].length; i<len; i++) {
+      var story_element = $("<li><div class=\"box box_" + state  + "\"><a href=\"edit_story.html?story=" + board[state][i][1] + "\">" + board[state][i][1] + "</a> " + board[state][i][2] + "</div></li>");
+      story_element.data("story",  board[state][i]);
 			list.append(story_element);
-     	 }
-	   }
-	   return list
+    }
+	}
+	return list
 }
 
 var create_column = function(board, state, headline) {
-	   var state_column = $("<div class=\"dp10" + ((! /_Q$/.test(state)) ? "" : " queue_column")+ "\"></div>")
-	   state_column.append($("<div class=\"headline\">" + headline + "</div>"));
-	   state_column.append(create_list(board, state));
-	   state_column.data("state", state);
-	   return state_column;
+	var state_column = $("<div class=\"dp10" + ((! /_Q$/.test(state)) ? "" : " queue_column")+ "\"></div>")
+	state_column.append($("<div class=\"headline\">" + headline + "</div>"));
+	state_column.append(create_list(board, state));
+	state_column.data("state", state);
+	return state_column;
 }
 
 var create_board = function(app_data) {
@@ -131,16 +100,9 @@ var create_board = function(app_data) {
 	var ids = "";
 	for (j=0; j< app_data.states_order.length; j++) {
 		var state = app_data.states_order[j]
-		if (! /_Q$/.test(state)) {
-			var queue_state = state + "_Q";
-			ids += "#" + queue_state + ",";
-		    var queue_state_column = create_column(app_data.board, queue_state, app_data.states[state] + " Ready")
-			table.append(queue_state_column)
-
-			ids += "#" + state + ","
-			var state_column = create_column(app_data.board, state, app_data.states[state])
-			table.append(state_column)
-		}
+		ids += "#" + state + ","
+		var state_column = create_column(app_data.board, state, app_data.states[state])
+		table.append(state_column)
 	}
 	$(ids, table).dragsort({ dragBetween: true });
 	return table;
@@ -148,7 +110,11 @@ var create_board = function(app_data) {
 
 $("#board_link").click(function () {
   var state_data = init_states($("#states").text().split("\n"));
-  var app_data = { board: init_board($("#data_output").val().split("\n")), states: state_data.states, states_order: state_data.states_order}
+  var app_data = {
+    board: init_board($("#data_output").val().split("\n")),
+    states: state_data.states,
+    states_order: state_data.states_order
+  }
   $("#output").empty();
   $("#output").append(create_board(app_data));
 
@@ -177,9 +143,9 @@ $("#data_link").click(function () {
 $.couch.app(function(app) {
   $("#states_container").evently("states", app);
   $("#stories_container").evently("stories", app);
+  $("#tag_cloud").evently("tag_cloud", app);
 });
 </script>
-
 <div class="clear"></div>
 <div class="footer">
 Written by Stephan Schmidt, who can be found on Twitter <a href="http://twitter.com/codemonkeyism">http://twitter.com/codemonkeyism</a>,

@@ -1,0 +1,6 @@
+Save state to CouchDB when moving stories
+Add editing to the story
+Style the edit story pane
+Write importers from trac (python code)
+Evently driven add stories - nice fade transition
+Add owner to story, add filter for replication
