@@ -1,0 +1,28 @@
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+    <title>Couch Kanban Board</title>
+    <script src="vendor/couchapp/loader.js"></script>
+    <script src="vendor/couchapp/lib/mustache.js"></script>
+  </head>
+  <body>
+    <div id="story">loading</div>
+  </body>
+  <script>
+  $.couch.app(function(app) {
+    var story_id = app.req.query.story;
+    app.db.openDoc(story_id, {
+        success : function(doc) {
+          var template = "foo";
+          $("#story").replace($.mustache(app.ddoc.templates.story, doc));
+        },
+        error : function(doc) {
+          $("#story").replace("Failed to load story. O.M.G!");
+        }
+
+    });
+    $("#stories_container").evently("edit_story", app);
+  });
+  </script>
+
+</html>
