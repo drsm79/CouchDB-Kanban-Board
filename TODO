@@ -2,5 +2,4 @@ Save state to CouchDB when moving stories
 Add editing to the story
 Style the edit story pane
 Evently driven add stories - nice fade transition
-Add owner to story, add filter for replication
 Fix broken edit page - change of state field?
