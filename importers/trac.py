@@ -113,6 +113,7 @@ def parse_ticket(trac_ticket):
        "story_state": str(trac_ticket[3]['status']).title(),
        "story_tags": trac_ticket[3]['keywords'].split(),
        "story_name": str(trac_ticket[3]['summary']),
+       "story_owner": str(trac_ticket[3]['owner']),
        "story_description": trac_ticket[3]['description']
     }
     if trac_ticket[3]['milestone']:
