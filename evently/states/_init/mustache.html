@@ -1,5 +1,14 @@
 <div id="states">
 {{#states}}
-{{value}}
+{{#value}}
+{{shortcut}},{{name}}
+{{/value}}
 {{/states}}
 </div>
+<style>
+{{#states}}
+  {{#value}}
+	#{{shortcut}} .box { {{#colours}}background-color: {{background-color}}; color: {{color}};{{/colours}}}
+  {{/value}}
+{{/states}}
+</style>
