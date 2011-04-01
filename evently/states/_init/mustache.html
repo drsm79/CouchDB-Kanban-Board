@@ -1,14 +1,9 @@
-<div id="states">
-{{#states}}
-{{#value}}
-{{shortcut}},{{name}}
-{{/value}}
-{{/states}}
-</div>
+<div id="states">{{#states}}{{#value}}{{name}}
+{{/value}}{{/states}}</div>
 <style>
 {{#states}}
   {{#value}}
-	#{{shortcut}} .box { {{#colours}}background-color: {{background-color}}; color: {{color}};{{/colours}}}
+	#{{id}} .box { {{#colours}}background-color: {{background-color}}; color: {{color}};{{/colours}}}
   {{/value}}
 {{/states}}
 </style>

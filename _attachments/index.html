@@ -44,111 +44,99 @@
 <div id="tag_cloud"></div>
 </center>
 <script language="JavaScript">
-$("#board_link").hide();
-$("#data_output").hide();
-
-var init_states = function(states_input) {
-    var states = {}
-	var states_order = []
-	for ( var i=0, len=states_input.length; i<len; i++ ) {
-		var state = states_input[i].split(",");
-		if (state.length == 2) {
-			states[state[0]] = state[1];
-			states_order.push(state[0]);
-		}
-	}
-    return {states: states, states_order: states_order};
-}
-
-var init_board = function(stories) {
-	var board = {};
-	for ( var i=0, len=stories.length; i<len; i++ ) {
-		var story = stories[i].split(",");
-		var state = story[0];
-		if (story.length == 3) {
-			if (! board[state]) {
-				board[state] = [];
-			}
-			board[state].push(story);
-		}
-	}
-	return board;
-}
-
-var create_list = function(board, state) {
-	var list = $("<ul class=\"state\" id=\"" + state + "\"></ul>");
-  if (board[state]) {
-    for (var i=0, len=board[state].length; i<len; i++) {
-      var story_element = $("<li><div class=\"box box_" + state  + "\"><a href=\"edit_story.html?story=" + board[state][i][1] + "\">" + board[state][i][1] + "</a> " + board[state][i][2] + "</div></li>");
-      story_element.data("story",  board[state][i]);
-			list.append(story_element);
-    }
-	}
-	return list
-}
-
-var create_column = function(board, state, headline) {
-	var state_column = $("<div class=\"dp10" + ((! /_Q$/.test(state)) ? "" : " queue_column")+ "\"></div>")
-	state_column.append($("<div class=\"headline\">" + headline + "</div>"));
-	state_column.append(create_list(board, state));
-	state_column.data("state", state);
-	return state_column;
-}
-
-var create_board = function(app_data) {
-	var table = $("<div id=\"board\"></div>");
-	var ids = "";
-	for (j=0; j< app_data.states_order.length; j++) {
-		var state = app_data.states_order[j]
-		ids += "#" + state + ","
-		var state_column = create_column(app_data.board, state, app_data.states[state])
-		table.append(state_column)
-	}
-	$(ids, table).dragsort({ dragBetween: true });
-	return table;
-}
-
-$("#board_link").click(function () {
-  var state_data = init_states($("#states").text().split("\n"));
-  var app_data = {
-    board: init_board($("#data_output").val().split("\n")),
-    states: state_data.states,
-    states_order: state_data.states_order
-  }
-  $("#output").empty();
-  $("#output").append(create_board(app_data));
-
-  $("#output").show();
-  $("#data_link").show();
-  $("#data_output").hide();
   $("#board_link").hide();
-})
+  $("#data_output").hide();
 
-$("#data_link").click(function () {
-  var data = "";
-  $("#board .dp10").each(function() {
-    var state = $(this).data("state");
-	$(this).find("li").each( function() {
-	   var story = $(this).data("story");
-	   data += state + "," + story[1] + "," + story[2] + "\n";
-	});
+  var init_board = function(stories) {
+  	var board = {};
+  	for ( var i=0, len=stories.length; i<len; i++ ) {
+  		var story = stories[i].split(",");
+  		var state = story[0];
+  		if (story.length == 3) {
+  			if (! board[state]) {
+  				board[state] = [];
+  			}
+  			board[state].push(story);
+  		}
+  	}
+  	return board;
+  }
+
+  var create_list = function(board, state) {
+  	var list = $("<ul class=\"state\" id=\"" + state.replace(" ", "") + "\"></ul>");
+    if (board[state]) {
+      for (var i=0, len=board[state].length; i<len; i++) {
+        var story_element = $("<li><div class=\"box box_" + state.replace(" ", "")  + "\"><a href=\"edit_story.html?story=" + board[state][i][1] + "\">" + board[state][i][1] + "</a> " + board[state][i][2] + "</div></li>");
+        story_element.data("story",  board[state][i]);
+  			list.append(story_element);
+      }
+  	};
+  	return list;
+  }
+
+  var create_column = function(board, state) {
+  	var state_column = $("<div class=\"dp10" + ((! /Ready$/.test(state.replace(" ", ""))) ? "" : " queue_column")+ "\"></div>")
+  	state_column.append($("<div class=\"headline\">" + state + "</div>"));
+  	state_column.append(create_list(board, state));
+  	state_column.data("state", state);
+  	return state_column;
+  }
+
+  var create_board = function(app_data) {
+  	var table = $("<div id=\"board\"></div>");
+  	var ids = "";
+  	for (j=0; j< app_data.states.length; j++) {
+  		var state = app_data.states[j];
+  		if (state.length){
+    		ids += "#" + state.replace(" ", "") + ",";
+    		var state_column = create_column(app_data.board, state);
+    		table.append(state_column);
+  		}
+  	}
+  	$(ids, table).dragsort({ dragBetween: true });
+  	return table;
+  }
+
+  $("#board_link").click(function () {
+    var state_data = $("#states").text().split("\n");
+    var app_data = {
+      board: init_board($("#data_output").val().split("\n")),
+      states: state_data
+    };
+    $("#output").empty();
+    $("#output").append(create_board(app_data));
+
+    $("#output").show();
+    $("#data_link").show();
+    $("#data_output").hide();
+    $("#board_link").hide();
+  })
+
+  $("#data_link").click(function () {
+    var data = "";
+    $("#board .dp10").each(function() {
+      var state = $(this).data("state");
+  	  $(this).find("li").each( function() {
+  	    var story = $(this).data("story");
+  	    data += state + "," + story[1] + "," + story[2] + "\n";
+  	  });
+    });
+    $("#data_output").val(data);
+    $("#output").hide();
+    $("#data_link").hide();
+    $("#data_output").show();
+    $("#board_link").show();
   });
-  $("#data_output").val(data);
-  $("#output").hide();
-  $("#data_link").hide();
-  $("#data_output").show();
-  $("#board_link").show();
-});
 
-$.couch.app(function(app) {
-  $("#states_container").evently("states", app);
-  $("#stories_container").evently("stories", app);
-  $("#tag_cloud").evently("tag_cloud", app);
-});
+  $.couch.app(function(app) {
+    $("#states_container").evently("states", app);
+    $("#stories_container").evently("stories", app);
+    $("#tag_cloud").evently("tag_cloud", app);
+  });
 </script>
 <div class="clear"></div>
 <div class="footer">
-Written by Stephan Schmidt, who can be found on Twitter <a href="http://twitter.com/codemonkeyism">http://twitter.com/codemonkeyism</a>,
+Originally written by Stephan Schmidt, who can be found on Twitter <a href="http://twitter.com/codemonkeyism">http://twitter.com/codemonkeyism</a>,
 Blog at <a href="http://www.codemonkeyism.com">http://www.codemonkeyism.com</a>,  using
 JQuery with the DragSort plugin<br>
 This software application is Twitter-Ware. If you like it, use it, or have something to say, <b>follow me</b> and tell me on Twitter at @codemonkeyism<br/>

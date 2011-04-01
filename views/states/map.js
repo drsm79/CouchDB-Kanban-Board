@@ -1,5 +1,5 @@
 function(doc) {
-  if (doc.state_name){
-     emit(doc.state_position, {shortcut:doc.state_shortcut, name:doc.state_name, colours: doc.state_colours});
+  if (doc.state_position){
+     emit(doc.state_position, {name:doc._id, id:doc._id.replace(" ", ""), colours: doc.state_colours});
   }
 }

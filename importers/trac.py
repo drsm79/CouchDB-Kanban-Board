@@ -110,7 +110,7 @@ def parse_ticket(trac_ticket):
     """
     ticket = {
        "_id": 'trac_ticket/%s' % trac_ticket[0],
-       "story_state": str(trac_ticket[3]['status']).title()[0],
+       "story_state": str(trac_ticket[3]['status']).title(),
        "story_tags": trac_ticket[3]['keywords'].split(),
        "story_name": str(trac_ticket[3]['summary']),
        "story_description": trac_ticket[3]['description']
@@ -146,13 +146,13 @@ if __name__ == "__main__":
     for state in server.ticket.status.getAll():
         data_for_couch.append({
            "state_shortcut": state.title()[0],
-           "state_name": state.title(),
+           "_id": state.title(),
            "state_position": len(state),
            "state_colours": colour_schemes[c]
         })
         data_for_couch.append({
            "state_shortcut": '%s_Q' % state.title()[0],
-           "state_name": '%s Ready' % state.title(),
+           "_id": '%s Ready' % state.title(),
            "state_position": len(state) - 1,
            "state_colours": {"background-color": "#F0F0F0", "color": "#606060"}
         })

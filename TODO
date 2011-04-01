@@ -4,3 +4,4 @@ Style the edit story pane
 Write importers from trac (python code)
 Evently driven add stories - nice fade transition
 Add owner to story, add filter for replication
+Use full name for states
