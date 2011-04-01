@@ -146,13 +146,11 @@ if __name__ == "__main__":
     shortcuts = []
     for state in server.ticket.status.getAll():
         data_for_couch.append({
-           "state_shortcut": state.title()[0],
            "_id": state.title(),
            "state_position": len(state),
            "state_colours": colour_schemes[c]
         })
         data_for_couch.append({
-           "state_shortcut": '%s_Q' % state.title()[0],
            "_id": '%s Ready' % state.title(),
            "state_position": len(state) - 1,
            "state_colours": {"background-color": "#F0F0F0", "color": "#606060"}
