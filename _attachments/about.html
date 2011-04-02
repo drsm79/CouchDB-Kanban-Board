@@ -1,0 +1,55 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+<!-- This software application is Twitter-Ware. If you like it,
+     use it, or have something to say, follow and tell me on Twitter
+	 at @codemonkeyism
+	 http://twitter.com/codemonkeyism
+	 Blog at http://www.codemonkeyism.com
+
+	 Webssite http://www.simple-kanban.com
+     See MIT license at bottom.
+-->
+<title>Couch Kanban Board</title>
+</head><body>
+<style type="text/css">
+  .button { background-color: #e0e0e0; color: #a0a0a0; padding: 0.2em; text-decoration: none;}
+  #about_link { background-color: #a0a0a0; color: #e0e0e0; padding: 0.2em; text-decoration: none; width:45px;}
+  #board_link { width:45px;}
+  .placeholder {border: 1px solid black; }
+  ul { list-style: none; margin: 0 0 0 0; padding: 0 0 0 0;}
+	body { font-family: Helvetica; }
+	h1 { font-size: 2em; }
+	h2 { font-size: 1.5em; }
+	.box { font-size: 80%; padding: 0.2em; border: 1px solid #a0a0a0; margin-bottom: 1em; margin-right: 5px;}
+	.dp10 {width:9%;  float:left;  display: inline;  *margin-right:-1px; }
+	.clear {clear:both;}
+	.headline { font-weight: bold; height: 3em; color: #000000;}
+	.queue_column .headline { font-weight: bold; height: 3em; color: #d0d0d0;}
+	.footer { font-size: 80%; color: #808080; padding-top: 5em;}
+	#tag_cloud  { font-size: 80%; color: #404040; margin-top: 5em; width:40%;}
+</style>
+<img style="float:right;" src="images/couch_kanban_logo.png" alt="Couch Kanban Logo"/>
+<div style="float:right;">
+<a id="board_link" class="button" href="index.html" style="float:right;">Board</a>
+<div class="clear"></div>
+<a id="about_link" class="button" href="about.html" style="float:right;">About</a>
+</div>
+
+<h1>About</h1>
+<h2>What is Kanban?</h2>
+<p><a href="http://en.wikipedia.org/wiki/Kanban">Kanban</a> is a tool to organise what work to do and when. It is an important tool for delivering products (be they software, physical products or effective services) <i>"Just In Time"</i>.</p>
+<p>Tasks are written down as stories. Each story is placed in a bin appropriate to the state of that story. Stories move from one bin to the next when, and only when, the action on that story is completed for the bin. The idea is that "defective products" do not move from one bin to the next, it is this concept that should improve the quality of the products through the production chain.</p>
+<h2>What's this app?</h2>
+<p>Simple Kanban was originally written by Stephan Schmidt, who can be found on Twitter <a href="http://twitter.com/codemonkeyism">http://twitter.com/codemonkeyism</a>,
+and blogs at <a href="http://www.codemonkeyism.com">http://www.codemonkeyism.com</a>, using
+JQuery with the DragSort plugin. Persistency to <a href="http://couchdb.apache.org/">CouchDB</a> and extended editing of stories was added by Simon Metson (<a href="http://twitter.com/drsm79">@drsm79</a>) and Mike Wallace (<a href="http://twitter.com/m1ke_wallace">@m1ke_wallace</a>).</p>
+<p>This software application is Twitter-Ware. If you like it, use it, or have something to say, <b>follow us</b> and tell us through Twitter.</p>
+<p>The original version of Simple Kanban can be found on <a href="http://www.simple-kanban.com">www.simple-kanban.com</a> the CouchDB enabled code is available on <a href="https://github.com/drsm79/CouchDB-Kanban-Board/">our github</a></p>
+<h2>Replication</h2>
+One of the sweetest features of CouchDB is it's many master replication. We use this in Couch Kanban Board so
+that teams of people can have a master board (for instance shown on a central monitor) with private copies
+replicated to their laptop/desktop/mobile phone. The filtered changes feed is available <a href="/kanban/_changes?filter=kanbancouch/owner&name=simon">here</a>.
+<h2>Hosting</h2>
+<p>Let <a href="http://twitter.com/drsm79">us</a> <a href="http://twitter.com/m1ke_wallace">know</a> if you want us to arrange hosting for your Kanban board.</p>
+</body>
+</html>
