@@ -1,5 +1,5 @@
-Save state to CouchDB when moving stories
+Save state to CouchDB when moving stories, update board page to include full doc
 Add editing to the story
 Style the edit story pane
 Evently driven add stories - nice fade transition
-Fix broken edit page - change of state field?
+Fix broken edit page - change of state field?, dropdown to choose a state
