@@ -93,8 +93,25 @@
     		table.append(state_column);
   		}
   	}
-  	$(ids, table).dragsort({ dragBetween: true });
+	$(ids, table).dragsort({ dragEnd: trigger_state_update, dragBetween: true });
   	return table;
+  }
+
+  var trigger_state_update = function() {
+    story_id = $("a", this).text();  // Dragsort sets the current object to the dragged item and we use the a element for the id by convention
+    $("#stories").trigger("update_state", story_id);
+  }
+
+  var get_data = function() {
+    var data = "";
+    $("#board .dp10").each(function() {
+      var state = $(this).data("state");
+      $(this).find("li").each( function() {
+        var story = $(this).data("story");
+        data += state + "," + story[1] + "," + story[2] + "\n";
+      });
+    });
+    return data;
   }
 
   $("#board_link").click(function () {
@@ -113,14 +130,7 @@
   })
 
   $("#data_link").click(function () {
-    var data = "";
-    $("#board .dp10").each(function() {
-      var state = $(this).data("state");
-  	  $(this).find("li").each( function() {
-  	    var story = $(this).data("story");
-  	    data += state + "," + story[1] + "," + story[2] + "\n";
-  	  });
-    });
+    var data = get_data();
     $("#data_output").val(data);
     $("#output").hide();
     $("#data_link").hide();
