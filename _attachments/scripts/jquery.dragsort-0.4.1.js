@@ -203,8 +203,7 @@
 							}
 						});
 					});
-					if (changed)
-						opts.dragEnd.apply(list.draggedItem);
+					opts.dragEnd.apply(list.draggedItem);
 					list.draggedItem = null;
 					$(document).unbind("selectstart", list.stopBubble);
 					$(document).unbind("mousemove", list.swapItems);

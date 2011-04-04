@@ -1,4 +1,3 @@
-Save state to CouchDB when moving stories, update board page to include full doc
 Add editing to the story
 Style the edit story pane
 Evently driven add stories - nice fade transition
