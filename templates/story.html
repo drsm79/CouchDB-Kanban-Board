@@ -29,23 +29,20 @@
     <center>
       <div style="width:75%">
         <form id="update-story">
-          <input type="hidden" name="_id" value="{{_id}}"/>
-          <input type="hidden" name="_rev" value="{{_rev}}"/>
-          <input type="hidden" name="story_state" value="{{story_state}}"/>
-        <h1 class="box" id="{{story_state}}">{{story_name}}</h1>
-        <p align="left">{{story_description}}</p>
+        <h1 class="box" id="story_name">{{story_name}}</h1>
+        <textarea id="story_description" align="left" rows="10" cols="80">{{{story_description}}}</textarea>
         <h2 align="left">Tags</h2>
         <ul align="left">
           {{#story_tags}}
           <li align="left">{{.}}</li>
           {{/story_tags}}
         </ul>
+				<h2 align="left">Current state: {{{story_state}}}</h2>
         </form>
         <p align="left"><a href="index.html">Back to the board</a></p>
       </div>
     </center>
-    <p>TODO: edit the story from this page</p>
-    <button class="save">Save Document</button>
+    <button id="save" class="save" disabled="disabled">Save Document</button>
   </body>
 </html>
 

@@ -1,1 +1,7 @@
 /* add styles here */
+
+.dirty {
+  padding: 0.2em;
+  border: 2px solid;
+  border-color: #fbb;
+}
