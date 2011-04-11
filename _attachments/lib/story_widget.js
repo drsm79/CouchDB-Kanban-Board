@@ -17,12 +17,14 @@ var storyWidget = function(app) {
     tagName: "div",
     events: {
       "click #save": "save",
+      "click a.delete": "deleteTag",
+      "click a.new": "newTag",
       "change #story_description": "update"
     },
     template: app.ddoc.templates.story,
     dirty: false,
     initialize: function() {
-      _.bindAll(this, "render", "save", "update");
+      _.bindAll(this, "render", "save", "update", "deleteTag", "newTag");
       this.model.bind("change", this.render);
       this.model.view = this;
       $("#story").html(this.el);
@@ -70,6 +72,27 @@ var storyWidget = function(app) {
         return this.dirty;
       }
       return this.dirty;
+    },
+    deleteTag: function(event) {
+      event.preventDefault();
+      var toDelete = ($(event.target).attr("href").slice(1));
+      var newTags = [];
+      for (var i in this.model.attributes.story_tags) {
+        if (this.model.attributes.story_tags[i] != toDelete) {
+          newTags.push(this.model.attributes.story_tags[i]);
+        }
+      }
+      this.model.set({story_tags: newTags});
+    },
+    newTag: function(event) {
+      event.preventDefault();
+      if ($.trim($("#new_tag").val()).length == 0) {
+        alert("You can't create empty tags.");
+        return;
+      }
+      var newTags = this.model.attributes.story_tags.slice();
+      newTags.push($("#new_tag").val());
+      this.model.set({story_tags: newTags});
     }
   });
 

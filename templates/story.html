@@ -34,8 +34,9 @@
         <h2 align="left">Tags</h2>
         <ul align="left">
           {{#story_tags}}
-          <li align="left">{{.}}</li>
+          <li align="left">{{.}}<a href="#{{.}}" id="{{.}}" class="delete">(delete)</a></li>
           {{/story_tags}}
+					<li align="left"><input type="text" id="new_tag"></input><a href="#new" class="new">(new)</a></li>
         </ul>
 				<h2 align="left">Current state: {{{story_state}}}</h2>
         </form>
