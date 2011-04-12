@@ -5,3 +5,7 @@
   border: 2px solid;
   border-color: #fbb;
 }
+
+#target {
+  float: right;
+}

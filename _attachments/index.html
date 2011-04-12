@@ -13,6 +13,9 @@
 <script src="vendor/couchapp/loader.js"></script>
 <script src="scripts/sizzle.js"></script>
 <script src="scripts/jquery.dragsort-0.4.1.js"></script>
+<script src="vendor/backbone/underscore.js"></script>
+<script src="vendor/backbone/backbone.js"></script>
+<script src="lib/target_widget.js"></script>
 </head><body>
 <img style="float:right;" src="images/couch_kanban_logo.png" alt="Couch Kanban Logo"/>
 <div style="float:right;">
@@ -21,6 +24,7 @@
 <div class="clear"></div>
 <a id="about_link" class="button" href="about.html" style="float:right;">About</a>
 </div>
+<div id="target" style="float:right;"></div>
 
 <div id="output"></div>
 <textarea id="data_output" rows="20" cols="100"></textarea>
@@ -144,6 +148,7 @@
   });
 
   $.couch.app(function(app) {
+		$.widgets.target(app);
     $("#states_container").evently("states", app);
     $("#stories_container").evently("stories", app);
     $("#tag_cloud").evently("tag_cloud", app);
