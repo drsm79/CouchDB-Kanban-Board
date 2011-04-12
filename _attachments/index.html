@@ -71,7 +71,7 @@
   	var list = $("<ul class=\"state\" id=\"" + state.replace(" ", "") + "\"></ul>");
     if (board[state]) {
       for (var i=0, len=board[state].length; i<len; i++) {
-        var story_element = $("<li><div class=\"box box_" + state.replace(" ", "")  + "\"><a href=\"edit_story.html?story=" + board[state][i][1] + "\">" + board[state][i][1] + "</a> " + board[state][i][2] + "</div></li>");
+        var story_element = $("<li><div class=\"box box_" + state.replace(" ", "")  + "\"><a id=\"" + board[state][i][1] + "\" href=\"edit_story.html?story=" + board[state][i][1] + "\">edit story</a><br/> " + board[state][i][2] + "</div></li>");
         story_element.data("story",  board[state][i]);
   			list.append(story_element);
       }
@@ -103,7 +103,7 @@
   }
 
   var trigger_state_update = function() {
-    story_id = $("a", this).text();  // Dragsort sets the current object to the dragged item and we use the a element for the id by convention
+    story_id = $("a", this).attr("id");  // Dragsort sets the current object to the dragged item and we use the id of the a element for the id
     $("#stories").trigger("update_state", story_id);
   }
 
