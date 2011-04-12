@@ -9,3 +9,7 @@
 #target {
   float: right;
 }
+
+#story_name {
+  font-size: larger;
+}

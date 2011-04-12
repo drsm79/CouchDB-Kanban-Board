@@ -1,5 +1,7 @@
 var storyWidget = function(app) {
   var storyId = app.req.query.story;
+  var storyTarget = app.req.query.story_target;
+  var storyState = app.req.query.story_state;
   var changesFeed = null;
 
   var StoryModel = Backbone.Model.extend({
@@ -20,7 +22,8 @@ var storyWidget = function(app) {
       "click a.delete": "deleteTag",
       "click a.new": "newTag",
       "change #story_description": "update",
-      "change #story_target": "update"
+      "change #story_target": "update",
+      "change #story_name": "update"
     },
     template: app.ddoc.templates.story,
     dirty: false,
@@ -47,6 +50,7 @@ var storyWidget = function(app) {
       this.model.save();
     },
     update: function() {
+      this.model.set({story_name: $("#story_name").val()});
       this.model.set({story_description: $("#story_description").val()});
       this.model.set({story_target: $("#story_target").val()});
     },
@@ -151,7 +155,19 @@ var storyWidget = function(app) {
 	Backbone.couch.enableChangeFeed = true;
 	Backbone.couch.docChange(handleChangedStory);
 
-  storyModel.fetch();
+  if (storyId) {
+    storyModel.fetch();
+  } else if (storyTarget) {
+    storyModel.set({
+      story_owner: "",
+      story_tags: [],
+      story_description: "",
+      story_state: storyState,
+      story_target: storyTarget
+    });
+  } else {
+    // TODO Page not called appropriately - give some feedback
+  }
 };
 
 (function($) {

@@ -25,6 +25,7 @@
 <a id="about_link" class="button" href="about.html" style="float:right;">About</a>
 </div>
 <div id="target" style="float:right;"></div>
+<div style="float:right;"><a id="new_story" href="#dummy">New story</a></div>
 
 <div id="output"></div>
 <textarea id="data_output" rows="20" cols="100"></textarea>
@@ -153,6 +154,13 @@
     $("#stories_container").evently("stories", app);
     $("#tag_cloud").evently("tag_cloud", app);
   });
+
+	$("#new_story").click(function(event) {
+		event.preventDefault();
+		var target = $("#targets").val();
+		var firstState = $("#states").text().split("\n")[0];
+		$(location).attr("href", "edit_story.html?story_target=" + target + "&story_state=" + firstState);
+	});
 </script>
 
 <div class="footer">
