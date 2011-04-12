@@ -38,9 +38,11 @@
           {{/story_tags}}
 					<li align="left"><input type="text" id="new_tag"></input><a href="#new" class="new">(new)</a></li>
         </ul>
+				<h2 align="left">Target</h2>
+				<input type="text" id="story_target" align="left" cols="80" value="{{{story_target}}}"></input>
 				<h2 align="left">Current state: {{{story_state}}}</h2>
         </form>
-        <p align="left"><a href="index.html">Back to the board</a></p>
+        <p align="left"><a href="index.html?target={{{story_target}}}">Back to the board</a></p>
       </div>
     </center>
     <button id="save" class="save" disabled="disabled">Save Document</button>

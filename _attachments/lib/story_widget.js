@@ -19,7 +19,8 @@ var storyWidget = function(app) {
       "click #save": "save",
       "click a.delete": "deleteTag",
       "click a.new": "newTag",
-      "change #story_description": "update"
+      "change #story_description": "update",
+      "change #story_target": "update"
     },
     template: app.ddoc.templates.story,
     dirty: false,
@@ -47,6 +48,7 @@ var storyWidget = function(app) {
     },
     update: function() {
       this.model.set({story_description: $("#story_description").val()});
+      this.model.set({story_target: $("#story_target").val()});
     },
     isDirty: function() {
       // Has the view changed (we tolerate some changes to the model without updating the view)

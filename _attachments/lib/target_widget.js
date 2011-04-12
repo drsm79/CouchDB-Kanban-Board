@@ -1,4 +1,5 @@
 var targetWidget = function(app) {
+  var defaultTarget = app.req.query.target;
   var ddocName = app.ddoc._id.slice(8); // TODO: brittle
   var changesFeed = null;
 
@@ -17,7 +18,11 @@ var targetWidget = function(app) {
       $("#target").html(this.el);
     },
     render: function() {
-      return $(this.el).html($.mustache(this.template, this.model.toJSON()));
+      var html = $(this.el).html($.mustache(this.template, this.model.toJSON()));
+      if (defaultTarget) {
+        $("#targets").val(defaultTarget);
+      }
+      return html;
     },
     refreshBoard: function() {
       $("#stories").trigger("update_stories", $("#target select").val());
