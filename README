@@ -1,0 +1,7 @@
+How to name your board
+===========================
+
+By default your boards name will be the same as the CouchDB database. If you'd
+like to give it something a bit more descriptive you can create a document in
+the database called instance. The document should have a single field (other
+than _rev/_id) called name.

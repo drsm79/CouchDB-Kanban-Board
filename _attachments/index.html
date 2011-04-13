@@ -160,8 +160,16 @@
 
   $.couch.app(function(app) {
 		$.widgets.target(app);
-		document.title = 'Couch Kanban Board: ' + app.ddoc.couchapp.name;
-		$("#board_name").text(app.ddoc.couchapp.name);
+		app.db.openDoc('instance', {
+		    success: function(doc) {
+          document.title = 'Couch Kanban Board: ' + doc.name;
+          $("#board_name").text(doc.name);
+		    },
+        error : function() {
+          document.title = 'Couch Kanban Board: ' + app.db.name;
+          $("#board_name").text(app.db.name);
+        }
+		  });
     $("#states_container").evently("states", app);
     $("#stories_container").evently("stories", app);
     $("#tag_cloud").evently("tag_cloud", app);
