@@ -13,6 +13,9 @@
 <script src="vendor/couchapp/loader.js"></script>
 <script src="scripts/sizzle.js"></script>
 <script src="scripts/jquery.dragsort-0.4.1.js"></script>
+<script src="vendor/backbone/underscore.js"></script>
+<script src="vendor/backbone/backbone.js"></script>
+<script src="lib/target_widget.js"></script>
 </head><body>
 <img style="float:right;" src="images/couch_kanban_logo.png" alt="Couch Kanban Logo"/>
 <div style="float:right;">
@@ -21,6 +24,8 @@
 <div class="clear"></div>
 <a id="about_link" class="button" href="about.html" style="float:right;">About</a>
 </div>
+<div id="target" style="float:right;"></div>
+<div style="float:right;"><a id="new_story" href="#dummy">New story</a></div>
 
 <div id="output"></div>
 <textarea id="data_output" rows="20" cols="100"></textarea>
@@ -71,7 +76,7 @@
   	var list = $("<ul class=\"state\" id=\"" + state.replace(" ", "") + "\"></ul>");
     if (board[state]) {
       for (var i=0, len=board[state].length; i<len; i++) {
-        var story_element = $("<li><div class=\"box box_" + state.replace(" ", "")  + "\"><a href=\"edit_story.html?story=" + board[state][i][1] + "\">" + board[state][i][1] + "</a> " + board[state][i][2] + "</div></li>");
+        var story_element = $("<li><div class=\"box box_" + state.replace(" ", "")  + "\"><a id=\"" + board[state][i][1] + "\" href=\"edit_story.html?story=" + board[state][i][1] + "\">edit story</a><br/> " + board[state][i][2] + "</div></li>");
         story_element.data("story",  board[state][i]);
   			list.append(story_element);
       }
@@ -103,7 +108,7 @@
   }
 
   var trigger_state_update = function() {
-    story_id = $("a", this).text();  // Dragsort sets the current object to the dragged item and we use the a element for the id by convention
+    story_id = $("a", this).attr("id");  // Dragsort sets the current object to the dragged item and we use the id of the a element for the id
     $("#stories").trigger("update_state", story_id);
   }
 
@@ -144,10 +149,18 @@
   });
 
   $.couch.app(function(app) {
+		$.widgets.target(app);
     $("#states_container").evently("states", app);
     $("#stories_container").evently("stories", app);
     $("#tag_cloud").evently("tag_cloud", app);
   });
+
+	$("#new_story").click(function(event) {
+		event.preventDefault();
+		var target = $("#targets").val();
+		var firstState = $("#states").text().split("\n")[0];
+		$(location).attr("href", "edit_story.html?story_target=" + target + "&story_state=" + firstState);
+	});
 </script>
 
 <div class="footer">

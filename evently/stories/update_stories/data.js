@@ -8,8 +8,8 @@ var get_current_states = function(data) {
   var states_by_id = {};
   for (var i in data.rows) {
     if (data.rows.hasOwnProperty(i)) {
-      id = data.rows[i];
-      state = data.rows[i].value.split(',')[1];
+      id = data.rows[i].id;
+      state = data.rows[i].value.split(',')[0];
       states_by_id[id] = state;
     }
   }
