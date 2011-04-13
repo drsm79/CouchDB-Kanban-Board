@@ -19,13 +19,16 @@
 </head><body>
 <img style="float:right;" src="images/couch_kanban_logo.png" alt="Couch Kanban Logo"/>
 <div style="float:right;">
+<a id="new_story" class="altbutton" href="#dummy" style="float:right;">New story</a>
+<div class="clear"></div>
 <a id="data_link" class="button" href="#" style="float:right;">Data</a>
 <a id="board_link" class="button" href="#" style="float:right;">Board</a>
 <div class="clear"></div>
-<a id="about_link" class="button" href="about.html" style="float:right;">About</a>
+<a id="about_link" class="altbutton" href="about.html" style="float:right;">About</a>
+<div class="clear"></div>
+<a id="burndown_link" class="button" href="burndown.html" style="float:right;">Burndown</a>
 </div>
-<div id="target" style="float:right;"></div>
-<div style="float:right;"><a id="new_story" href="#dummy">New story</a></div>
+
 
 <div id="output"></div>
 <textarea id="data_output" rows="20" cols="100"></textarea>
@@ -35,9 +38,8 @@
 <div id="states_container" style="visibility: hidden;"></div>
 
 <style type="text/css">
-  .button { background-color: #e0e0e0; color: #a0a0a0; padding: 0.2em; text-decoration: none;}
-  #about_link { background-color: #a0a0a0; color: #e0e0e0; padding: 0.2em; text-decoration: none; width:45px;}
-  #board_link, #data_link { width:45px; }
+  .button { background-color: #e0e0e0; color: #a0a0a0; padding: 0.2em; text-decoration: none; width:75px;}
+  .altbutton { background-color: #a0a0a0; color: #e0e0e0; padding: 0.2em; text-decoration: none; width:75px;}
   .placeholder {border: 1px solid black; }
   ul { list-style: none; margin: 0 0 0 0; padding: 0 0 0 0;}
 	body { font-family: Helvetica; }
@@ -51,7 +53,9 @@
 </style>
 <div class="clear"></div>
 <center>
-<div id="tag_cloud"></div>
+  <div id="tag_cloud"></div>
+  <br/>
+  <div id="target"></div>
 </center>
 <script language="JavaScript">
   $("#board_link").hide();
