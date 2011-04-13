@@ -1,3 +1,5 @@
+Add a state deffinition and a hover over to the GUI 
+Deal with conflicted stories - highlight in main board, allow resolution in edit
 Add editing to the story
 Style the edit story pane
 Evently driven add stories - nice fade transition

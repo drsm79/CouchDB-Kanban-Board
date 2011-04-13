@@ -1,3 +1,0 @@
-{
-    "a" : {"click": "function() { alert('click on a');}" }
-}
