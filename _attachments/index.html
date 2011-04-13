@@ -77,7 +77,11 @@
   	var list = $("<ul class=\"state\" id=\"" + state.replace(" ", "") + "\"></ul>");
     if (board[state]) {
       for (var i=0, len=board[state].length; i<len; i++) {
-        var story_element = $("<li><div class=\"box box_" + state.replace(" ", "")  + "\">" + board[state][i][2] + "<br/><a class=\"edit_story\" id=\"" + board[state][i][1] + "\" href=\"edit_story.html?story=" + board[state][i][1] + "\">edit &#8883;</a></div></li>");
+        if (state == "Done") {
+          var story_element = $("<li><div class=\"box box_" + state.replace(" ", "")  + "\">" + board[state][i][2] + "<br/><a id=\"Archive\" href=\"#Archive?" + board[state][i][1] +"\">archive</a></div></li>");
+        } else {
+          var story_element = $("<li><div class=\"box box_" + state.replace(" ", "")  + "\">" + board[state][i][2] + "<br/><a class=\"edit_story\" id=\"" + board[state][i][1] + "\" href=\"edit_story.html?story=" + board[state][i][1] + "\">edit &#8883;</a></div></li>");
+        }
         story_element.data("story",  board[state][i]);
   			list.append(story_element);
       }
@@ -104,12 +108,17 @@
     		table.append(state_column);
   		}
   	}
-	$(ids, table).dragsort({ dragEnd: trigger_state_update, dragBetween: true });
+  	ids += "#" + "Done,";
+  	var done_column = create_column(app_data.board, 'Done');
+		table.append(done_column);
+    $(ids, table).dragsort({ dragEnd: trigger_state_update, dragBetween: true });
   	return table;
   }
 
   var trigger_state_update = function() {
-    story_id = $("a", this).attr("id");  // Dragsort sets the current object to the dragged item and we use the id of the a element for the id
+    // Dragsort sets the current object to the dragged item and
+    // we use the id of the a element for the id
+    story_id = $("a", this).attr("id");
     $("#stories").trigger("update_state", story_id);
   }
 
