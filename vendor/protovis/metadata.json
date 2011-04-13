@@ -1,0 +1,5 @@
+{
+	"name": "protovis",
+	"description": "unofficial protovis vendor",
+	"fetch_uri": "http://protovis-js.googlecode.com/files/protovis-3.2.zip"
+}
