@@ -35,7 +35,7 @@ var targetWidget = function(app) {
     if (method == "read") {
       app.db.view(ddocName + "/" + "stories", {
         reduce: true,
-        group_level: 1,
+        group: true,
         descending: true,
         success: function(results) {
           var targets = [];
