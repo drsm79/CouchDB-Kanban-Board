@@ -17,25 +17,25 @@
 <script src="vendor/backbone/backbone.js"></script>
 <script src="lib/target_widget.js"></script>
 </head><body>
-<img style="float:right;" src="images/couch_kanban_logo.png" alt="Couch Kanban Logo"/>
-<div style="float:right;">
-<a id="new_story" class="altbutton" href="#dummy" style="float:right;">New story</a>
-<div class="clear"></div>
-<a id="data_link" class="button" href="#" style="float:right;">Data</a>
-<a id="board_link" class="button" href="#" style="float:right;">Board</a>
-<div class="clear"></div>
-<a id="about_link" class="altbutton" href="about.html" style="float:right;">About</a>
-<div class="clear"></div>
-<a id="burndown_link" class="button" href="burndown.html" style="float:right;">Burndown</a>
-</div>
+  <img style="float:right;" src="images/couch_kanban_logo.png" alt="Couch Kanban Logo"/>
+  <div style="float:right;">
+  <a id="new_story" class="altbutton" href="#dummy" style="float:right;">New story</a>
+  <div class="clear"></div>
+  <a id="data_link" class="button" href="#" style="float:right;">Data</a>
+  <a id="board_link" class="button" href="#" style="float:right;">Board</a>
+  <div class="clear"></div>
+  <a id="about_link" class="altbutton" href="about.html" style="float:right;">About</a>
+  <div class="clear"></div>
+  <a id="burndown_link" class="button" href="burndown.html" style="float:right;">Burndown</a>
+  </div>
 
+  <h1 id="board_name">Board Name</h1>
+  <div id="output"></div>
+  <textarea id="data_output" rows="20" cols="100"></textarea>
 
-<div id="output"></div>
-<textarea id="data_output" rows="20" cols="100"></textarea>
-
-<div class="clear"></div>
-<div id="stories_container" style="visibility: hidden;"></div>
-<div id="states_container" style="visibility: hidden;"></div>
+  <div class="clear"></div>
+  <div id="stories_container" style="visibility: hidden;"></div>
+  <div id="states_container" style="visibility: hidden;"></div>
 
 <style type="text/css">
   .button { background-color: #e0e0e0; color: #a0a0a0; padding: 0.2em; text-decoration: none; width:75px;}
@@ -154,6 +154,8 @@
 
   $.couch.app(function(app) {
 		$.widgets.target(app);
+		document.title = 'Couch Kanban Board: ' + app.ddoc.couchapp.name;
+		$("#board_name").text(app.ddoc.couchapp.name);
     $("#states_container").evently("states", app);
     $("#stories_container").evently("stories", app);
     $("#tag_cloud").evently("tag_cloud", app);
