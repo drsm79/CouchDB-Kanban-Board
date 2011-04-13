@@ -25,7 +25,11 @@ var targetWidget = function(app) {
       return html;
     },
     refreshBoard: function() {
-      $("#stories").trigger("update_stories", $("#target select").val());
+      if ($("#target select").val() == "All"){
+        $("#stories").trigger("update_stories");  
+      } else {
+        $("#stories").trigger("update_stories", $("#target select").val());
+      }
     }
   });
 
@@ -36,7 +40,7 @@ var targetWidget = function(app) {
       app.db.view(ddocName + "/" + "stories", {
         reduce: true,
         group: true,
-        descending: true,
+        descending: false,
         success: function(results) {
           var targets = [];
           for (var i in results.rows) {
