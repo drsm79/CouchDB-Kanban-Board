@@ -1,6 +1,4 @@
 function(data, widget){
-    $.log(widget);
-    $.log(widget);
     var values_to_sort = {};
     for (i in data.rows){
         values_to_sort[data.rows[i].key] = data.rows[i].value;

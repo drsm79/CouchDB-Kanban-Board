@@ -8,5 +8,9 @@ function(){
     $("#output").empty();
     $("#output").append(create_board(app_data));
   };
-
+  $(".Archive").click(function(event) {
+    event.preventDefault();
+    var storyId = $(event.target).attr("href").slice(1);
+    $("#stories").trigger("update_db", [storyId, "Archived"]);
+  });
 }

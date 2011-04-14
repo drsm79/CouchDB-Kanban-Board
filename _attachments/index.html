@@ -78,7 +78,7 @@
     if (board[state]) {
       for (var i=0, len=board[state].length; i<len; i++) {
         if (state == "Done") {
-          var story_element = $("<li><div class=\"box box_" + state.replace(" ", "")  + "\">" + board[state][i][2] + "<br/><a id=\"Archive\" href=\"#Archive?" + board[state][i][1] +"\">archive</a></div></li>");
+          var story_element = $("<li><div class=\"box box_" + state.replace(" ", "")  + "\">" + board[state][i][2] + "<br/><a id=\"Archive\" class=\"Archive\" href=\"#" + board[state][i][1] +"\">archive</a></div></li>");
         } else {
           var story_element = $("<li><div class=\"box box_" + state.replace(" ", "")  + "\">" + board[state][i][2] + "<br/><a class=\"edit_story\" id=\"" + board[state][i][1] + "\" href=\"edit_story.html?story=" + board[state][i][1] + "\">edit &#8883;</a></div></li>");
         }
@@ -142,7 +142,6 @@
     };
     $("##kanban").empty();
     $("#kanban").append(create_board(app_data));
-
     $("#kanban").show();
     $("#data_link").show();
     $("#data_output").hide();
