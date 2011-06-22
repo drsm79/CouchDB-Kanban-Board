@@ -20,6 +20,7 @@ Adding states
 Before you can use the Kanban board you need to decide which states your
 stories can go through. There are some default states in \_docs which set up a
 reasonable list of states stories can progress through. These states are:
+
  * New
  * Devel_Ready
  * Development
