@@ -10,15 +10,40 @@ Dependencies
 
 Pushing the application
 --------------------------
+A normal couchapp push should do the trick.
 
 Adding states
 --------------------------
 > *Note* this is probably the most sucky part of Kanban Couch. It's very
-> flexible but it's annoying to set up. Patches welcome via github.
+> flexible but it's annoying to set up, and edit. Patches welcome via github.
 
 Before you can use the Kanban board you need to decide which states your
-stories can go through.
+stories can go through. There are some default states in \_docs which set up a
+reasonable list of states stories can progress through. These states are:
+ * New
+ * Devel_Ready
+ * Development
+ * Test_Ready
+ * Test
+ * Deploy_Ready
+ * Deployment
+ * Int_Ready
+ * Integrating
+ * Done _(this is added automatically)_
 
+If you'd like different states edit or add to these documents. The document
+structure is simple:
+
+	{
+		"_id": "New",
+		"state_colours": {
+			"color": "#ffffff", "background-color": "#A5C700"
+		},
+		"state_position": 1,
+		"state_shortcut": "DR"
+	}
+
+But it is important that state\_position is set appropriately.
 
 Miscellany
 --------------------------

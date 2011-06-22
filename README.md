@@ -3,6 +3,7 @@ Kanban Couch
 
 Installation
 --------------------------
+See INSTALL.md
 
 Components
 --------------------------
@@ -10,6 +11,7 @@ Components
 
 Adding a story
 --------------------------
+
 
 Roadmap
 --------------------------
