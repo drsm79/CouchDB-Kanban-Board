@@ -1,5 +1,4 @@
 {
   "view": "tag-cloud",
-  "group": true,
-  "limit": 20
+  "group": true
 }
