@@ -26,9 +26,11 @@ var targetWidget = function(app) {
     },
     refreshBoard: function() {
       if ($("#target select").val() == "All"){
-        $("#stories").trigger("update_stories");  
+        $("#stories").trigger("update_stories");
+        $("#tag_cloud").trigger("update_tag_cloud");
       } else {
         $("#stories").trigger("update_stories", $("#target select").val());
+        $("#tag_cloud").trigger("update_tag_cloud", $("#target select").val());
       }
     }
   });
