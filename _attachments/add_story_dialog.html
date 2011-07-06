@@ -1,0 +1,53 @@
+<script>
+  $('#tags').tagsInput({
+		'height':'57px',
+		'width':'250px',
+		'unique':true
+		//TODO		'autocomplete_url': '_view/tag-cloud?group=true'
+  });
+  $.couch.app(function(app) {
+    $.widgets.story(app);
+  });
+</script>
+<div id="story">
+	<form>
+		<table width="500">
+			<tr>
+				<td colspan=2 align="left" valign="middle">
+					<div style="float:left;"><h1>Add story:</h1></div>
+					<div style="float:left;"><input type="text" size="15" value="" id="name" class="dirty"></div>
+				</td>
+			</tr>
+			<tr>
+				<td colspan=2 align="left">
+					<textarea id="description" align="left" cols="56" rows="8"></textarea>
+				</td>
+			</tr>
+			<tr>
+				<td align="left" width="250">
+					<input name="tags" id="tags" value=""/>
+				</td>
+				<td align="center" width="200">
+					<select id='target'>
+					  <option selected="selected" disabled="disabled">Target</option>
+					  <option value="volvo">Volvo</option>
+					  <option value="saab">Saab</option>
+					  <option value="mercedes">Mercedes</option>
+					  <option value="audi">Audi</option>
+					</select>
+					<p><a href="#" id="add_target">Add new</a></p>
+					<div style="visibility:hidden">
+						<input id='story_target' type="text" size="15"/>
+					</div>
+				</td>
+			<tr>
+				<td align="center" width="225">
+					<button type="submit" id="save">Save</button>
+				</td>
+				<td align="center" width="225">
+					<button type="button" class="cancel">Cancel</input>
+				</td>
+			</tr>
+		</table>
+	</form>
+</div>

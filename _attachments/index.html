@@ -14,9 +14,15 @@
     <script src="vendor/couchapp/loader.js"></script>
     <script src="scripts/sizzle.js"></script>
     <script src="scripts/jquery.dragsort-0.4.1.js"></script>
-    <script src="vendor/backbone/underscore.js"></script>
-    <script src="vendor/backbone/backbone.js"></script>
+		<script src="vendor/backbone/underscore.js"></script>
+		<script src="vendor/backbone/backbone.js"></script>
+		<script src="vendor/backbone/backbone.couch.js"></script>
+		<script src="lib/editstory/loader.js"></script>
     <script src="lib/target_widget.js"></script>
+
+		<link rel="stylesheet" type="text/css" href="vendor/jqueryui/jquery.tagsinput.css" />
+		<link rel="stylesheet" type="text/css" href="vendor/jqueryui/jquery.selectBox.css" />
+
   	<link rel="stylesheet" href="style/main.css" type="text/css">
   </head>
   <body>
@@ -33,6 +39,8 @@
     <a id="about_link" class="altbutton" href="about.html"><center>About</center></a>
     <div class="clear"></div>
     <a id="burndown_link" class="button" href="burndown.html"><center>Burndown</center></a>
+
+
   </div>
 
   <div id="kanban">
@@ -55,9 +63,10 @@
   </div>
 
 <script language="JavaScript">
+
+  $("SELECT").selectBox();
   $("#board_link").hide();
   $("#data_output").hide();
-
   var init_board = function(stories) {
   	var board = {};
   	for ( var i=0, len=stories.length; i<len; i++ ) {
@@ -176,9 +185,16 @@
 
 	$("#new_story").click(function(event) {
 		event.preventDefault();
-		var target = $("#targets").val();
-		var firstState = $("#states").text().split("\n")[0];
-		$(location).attr("href", "edit_story.html?story_target=" + target + "&story_state=" + firstState);
+		$.showDialog("add_story_dialog.html", {
+			load: function(elem) {
+				$.couch.app(function(app) {
+      		return false;
+      	});
+		  }
+		});
+		//var target = $("#targets").val();
+		//var firstState = $("#states").text().split("\n")[0];
+		//$(location).attr("href", "edit_story.html?story_target=" + target + "&story_state=" + firstState);
 	});
 </script>
 

@@ -103,6 +103,7 @@
         data = model.toJSON();
       if ( !data.type ) { data.type = this.getType( model ); }
       if ( !data.id && data._id ) { data.id = data._id; }
+
       db.saveDoc( data, {
         success: function( respone ){
           _success( {
@@ -359,7 +360,6 @@
    * @param {function} error callback
    */
   Backbone.sync = function(method, obj, success, error) {
-
     if ( method === "create" || method === "update" ) {
       // triggered on "model.save(...)"
       Backbone.couch.create( obj, success, error );
