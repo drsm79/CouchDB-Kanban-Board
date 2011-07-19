@@ -10,7 +10,7 @@ function(){
   };
   $(".Archive").click(function(event) {
     event.preventDefault();
-    var storyId = $(event.target).attr("href").slice(1);
+    var storyId = $(event.target).attr("id");
     $("#stories").trigger("update_db", [storyId, "Archived"]);
   });
   $(".edit_story").click(function(event) {
