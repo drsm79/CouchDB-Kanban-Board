@@ -1,4 +1,35 @@
-var StoryView = Backbone.View.extend({
+var ShortStoryView = Backbone.View.extend({
+  // A view for a single story - needed because the model can be edited
+  initialize: function() {
+    _.bindAll(this, 'render');
+    this.model.bind('change', this.render);
+    this.model.view = this;
+  },
+	render: function() {
+		data = this.model.attributes;
+		return [data.story_state, data._id, data.story_name].join(',') + "\n"
+	}
+});
+
+var BoardStoryView = Backbone.View.extend({
+	// A view for a collection of stories
+	initialize: function(collection) {
+	  _.bindAll(this, 'addOne', 'addAll');
+	  this.collection = collection;
+    this.collection.bind('add',     this.addOne);
+    this.collection.bind('refresh',   this.addAll);
+		this.collection.bind('reset', this.addAll);
+  },
+	addOne: function(story) {
+		var view = new ShortStoryView({model: story});
+		$("#stories").append(view.render())
+	},
+	addAll: function(){
+		this.collection.each(this.addOne);
+	}
+});
+
+var FullStoryView = Backbone.View.extend({
   id: "story",
   // TODO: Ask Mike about events
   events: {
@@ -27,9 +58,8 @@ var StoryView = Backbone.View.extend({
     // Clear the tag box
     _.each($("#tags").val().split(','), function(tag){$("#tags").removeTag(tag);});
     // Add the tags back
-    for (t in story_tags){
-      $("#tags").addTag(story_tags[t]);
-    }
+    _.each(story_tags, function(tag){$("#tags").addTag(tag);});
+
     // TODO: Deal with story targets
     //$("#target").val(this.model.get("story_target"));
   },

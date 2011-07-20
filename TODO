@@ -1,7 +1,5 @@
 Add a state definition and story hover over to the GUI
 Deal with conflicted stories - highlight in main board, allow resolution in edit
-Evently driven add stories - nice fade transition
-Fix broken edit page - change of state field?, dropdown to choose a state
 User support:
     user cloud - size by # stories, colour by open stories/total stories
     filtered replication
@@ -10,5 +8,6 @@ User support:
 Documentation
 Drop evently
 Improve story editing
+    autocomplete tags
 Alpha sort stories on board
 Improve deployment/management of story states

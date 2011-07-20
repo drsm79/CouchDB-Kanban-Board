@@ -1,4 +1,7 @@
 var StateCollection = Backbone.Collection.extend({
   model : StateModel,
-  url : "states?reduce=false"
+  url : "states",
+  options : {
+    reduce: false
+	}
 });

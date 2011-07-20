@@ -2,8 +2,8 @@
   $('#tags').tagsInput({
 		'height':'57px',
 		'width':'250px',
-		'unique':true
-		//TODO		'autocomplete_url': '_view/tag-cloud?group=true'
+		'unique':true,
+		'autocomplete_url': '_list/tags/tag-cloud?reduce=false'
   });
   $.couch.app(function(app) {
     $.widgets.story(app);

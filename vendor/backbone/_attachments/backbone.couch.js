@@ -193,20 +193,32 @@
         descending: collection.descending,
         success: function( result ) {
           var models = [];
-          // for each result row, build model
-          // compilant with backbone
-          _.each( result.rows, function( row ) {
-            var model = row.value;
-            if ( !model.id ) { model.id = row.id }
-            models.push( model );
-          });
+          if (collection.options.success) {
+            models = collection.options.success(result);
+          } else {
+            // for each result row, build model
+            // compilant with backbone
+            _.each( result.rows, function( row ) {
+              var model = row.value;
+              if ( !model.id ) { model.id = row.id }
+              models.push( model );
+            });
+          };
           // if no result then should result null
           if ( models.length == 0 ) { models = null }
           _success( models );
         },
         error: _error
       };
+      if (collection.options) {
+        for (i in collection.options){
+          if (i !='success'){
+            options[i] = collection.options[i];
+          }
+        }
+      }
       if (collection.limit) { options.limit = collection.limit; }
+
       db.view(query, options);
 
       var model = new collection.model;
