@@ -41,31 +41,35 @@ var FullStoryView = Backbone.View.extend({
   },
 
   initialize: function() {
-    // TODO: Ask Mike about bindAll
     _.bindAll(this, "render", "save", "update");
     // explicitly bind the save for now...
-    $('#save').bind("click", this.save)
+    $('#save').bind("click", this.save);
+    this.model = new StoryModel();
     this.model.bind("change", this.render);
     this.model.view = this;
-    this.render();
   },
 
-  render: function() {
+  render: function(model) {
     $("#name").val(this.model.get("story_name"));
     $("#description").val(this.model.get("story_description"));
-    // Tags are special
+    // Tags are "special"
     story_tags = this.model.get("story_tags");
     // Clear the tag box
-    _.each($("#tags").val().split(','), function(tag){$("#tags").removeTag(tag);});
+    if ($("#tags").val()){
+      _.each($("#tags").val().split(','), function(tag){$("#tags").removeTag(tag);});
+    }
     // Add the tags back
     _.each(story_tags, function(tag){$("#tags").addTag(tag);});
-
     // TODO: Deal with story targets
     //$("#target").val(this.model.get("story_target"));
   },
 
   save: function() {
+    $.log('save called');
     this.update();
+    if (this.model.isNew()){
+      $.board.stories.collection.add(this.model);
+    }
     this.model.save();
     $("#dialog").fadeOut("fast", function() {
       $("#dialog, #overlay, #overlay-frame").remove();

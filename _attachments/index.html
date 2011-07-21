@@ -64,13 +64,28 @@
 
 	var app = $.couch.utils.getAppInfo();
 
+  // Set up couchdb-backbone connector
+  Backbone.couch.databaseName = app.db_name;
+  Backbone.couch.ddocName = app.ddoc;
+  Backbone.couch.enableChangesFeed = false;
+  Backbone.couch.debug = false;
+
 	(function($) {
 	  $.widgets = $.widgets || {};
 	  $.widgets.board = boardWidget;
+	  $.widgets.story = storyWidget;
 	})(jQuery);
 
-	$.widgets.board(app.db_name, app.ddoc);
+	$.widgets.board();
 
+	$("#new_story").click(function(event) {
+		event.preventDefault();
+		$.showDialog("add_story_dialog.html", {
+		  load: function(elem) {
+		    $.widgets.story.initialise();
+	    }
+		});
+	});
 </script>
 
 <!--

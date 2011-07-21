@@ -27,5 +27,6 @@ app_load([
   // widgets/controllers
   //"lib/widgets/editstory/controller.js",
   "lib/widgets/target_widget.js",
-  "lib/widgets/board.js"
+  "lib/widgets/board.js",
+  "lib/widgets/full_story.js"
 ])
