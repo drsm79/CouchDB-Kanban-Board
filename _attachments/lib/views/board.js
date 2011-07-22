@@ -9,6 +9,7 @@ var BoardView = Backbone.View.extend({
     this.states = args.states;
     this.stories = args.stories;
     this.trigger_func = args.trigger_func;
+    this.after = args.after;
 
     this.states.collection.bind('refresh', this.state_render);
     this.stories.collection.bind('add', this.story_render);
@@ -116,6 +117,11 @@ var BoardView = Backbone.View.extend({
     } else {
       $.log('render called but collections not ready');
     };
+    // Call any functions that might want to be triggered once
+    // rendering is complete
+    _.each(this.after, function(func) {
+      func();
+    });
   }
 
 });

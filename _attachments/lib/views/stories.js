@@ -40,16 +40,19 @@ var FullStoryView = Backbone.View.extend({
     "change #tags": "update"
   },
 
-  initialize: function() {
+  initialize: function(options) {
     _.bindAll(this, "render", "save", "update");
     // explicitly bind the save for now...
     $('#save').bind("click", this.save);
-    this.model = new StoryModel();
+
+    this.model = options.model || new StoryModel();
     this.model.bind("change", this.render);
     this.model.view = this;
   },
 
-  render: function(model) {
+  render: function() {
+    $.log("Rendering");
+    $.log(this.model.toJSON());
     $("#name").val(this.model.get("story_name"));
     $("#description").val(this.model.get("story_description"));
     // Tags are "special"
