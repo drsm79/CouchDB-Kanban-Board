@@ -11,7 +11,7 @@ var boardWidget = function() {
     var new_state = parent.id;
     // Need to get the model from the collection so everything gets refreshed
     // TODO: check that can't use new StoryModel({id: story_id})
-    var model = board.stories.collection.get(story_id);
+    var model = $.board.stories.collection.get(story_id);
     // Need to fetch the model to make sure the _rev is set. Once fetched can
     // save the updated story to the database.
     model.fetch({
