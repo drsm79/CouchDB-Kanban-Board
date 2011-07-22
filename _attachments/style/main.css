@@ -42,7 +42,7 @@ padding: 0 0 0 0;
 }
 
 body {
-font-family: Helvetica;
+font-family: Helvetica Neue, Helvetica, Arial;
 padding: 0px;
 margin: 0px;
 background-color: #ffffff;
@@ -62,8 +62,10 @@ box-shadow: 3px 3px 4px #a0a0a0;
 
 h1 {
 display: block;
-font-size: 2em;
-font-weight: bold;
+font-size: 2.5em;
+font-weight: 300;
+/*font-family: Helvetica Neue, Helvetica, Arial;
+*/
 }
 
 #story_name {
@@ -95,7 +97,7 @@ color: #000000;
 }
 
 .queue_column .headline {
-font-weight: bold;
+font-weight: 300;
 height: 3em;
 color: #d0d0d0;
 }
