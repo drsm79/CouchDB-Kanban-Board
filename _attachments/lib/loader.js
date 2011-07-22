@@ -14,19 +14,23 @@ app_load([
   // models for the application
   "lib/models/story.js",
   "lib/models/state.js",
+  "lib/models/tag.js",
   "lib/models/target.js",
   // collections for the application
   "lib/collections/states.js",
   "lib/collections/stories.js",
+  "lib/collections/tags.js",
   "lib/collections/targets.js",
   // views
   "lib/views/board.js",
   "lib/views/stories.js",
   "lib/views/states.js",
+  "lib/views/tags.js",
   "lib/views/targets.js",
   // widgets/controllers
   //"lib/widgets/editstory/controller.js",
   "lib/widgets/target_widget.js",
   "lib/widgets/board.js",
-  "lib/widgets/full_story.js"
+  "lib/widgets/full_story.js",
+  "lib/widgets/tag_widget.js"
 ])

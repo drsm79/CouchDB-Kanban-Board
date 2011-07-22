@@ -74,9 +74,11 @@
 	  $.widgets = $.widgets || {};
 	  $.widgets.board = boardWidget;
 	  $.widgets.story = storyWidget;
+	  $.widgets.tags = tagWidget;
 	})(jQuery);
 
 	$.widgets.board();
+	$.widgets.tags();
 
 	$("#new_story").click(function(event) {
 		event.preventDefault();
