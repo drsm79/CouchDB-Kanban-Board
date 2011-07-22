@@ -91,18 +91,18 @@ var BoardView = Backbone.View.extend({
 
 
   state_render: function(){
-    state_called = true;
-    if (story_called && state_called){ this.render(); };
+    this.state_called = true;
+    if (this.story_called && this.state_called){ this.render(); };
   },
 
   story_render: function(){
-    story_called = true;
-    if (story_called && state_called){ this.render(); };
+    this.story_called = true;
+    if (this.story_called && this.state_called){ this.render(); };
   },
 
   render: function(){
     var states = $("#states").text().split("\n");
-    if (story_called && state_called){
+    if (this.story_called && this.state_called){
     // TODO: use the collection instead of reading the textarea
       var stories = $("#stories").text().split("\n") || [];
       var states = $("#states").text().split(", ") || [];
