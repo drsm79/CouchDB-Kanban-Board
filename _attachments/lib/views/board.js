@@ -122,6 +122,14 @@ var BoardView = Backbone.View.extend({
     _.each(this.after, function(func) {
       func();
     });
-  }
+  },
 
+  set_target: function(target){
+    if (target == "All") {
+      delete(this.stories.collection.options.key);
+    } else {
+      this.stories.collection.options.key = target;
+    }
+    this.stories.collection.fetch();
+  }
 });

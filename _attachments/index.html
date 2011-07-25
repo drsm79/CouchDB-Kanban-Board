@@ -38,6 +38,7 @@
     <a id="burndown_link" class="button" href="burndown.html"><center>Burndown</center></a>
     <div class="clear"></div>
     <a id="about_link" class="altbutton" href="about.html"><center>About</center></a>
+    <div class="clear" id="target"></div>
   </div>
 
   <div id="kanban">
@@ -51,8 +52,6 @@
   <div class="footer">
     <center>
       <div id="tag_cloud"></div>
-      <br/>
-      <div id="target"></div>
       <hr/>
       <p style="width:600px">Simple Kanban originally written by Stephan Schmidt, who can be found on Twitter <a href="http://twitter.com/codemonkeyism">@codemonkeyism</a>, please see the <a href="about.html">about page</a> for more information on who wrote this app and how to make the most of it.</p>
     </center>
@@ -75,10 +74,12 @@
 	  $.widgets.board = boardWidget;
 	  $.widgets.story = storyWidget;
 	  $.widgets.tags = tagWidget;
+	  $.widgets.target = targetWidget;
 	})(jQuery);
 
 	$.widgets.board();
 	$.widgets.tags();
+  $.widgets.target({selector: "#target", board: $.board}); // TODO remove $.board if poss
 
 	$("#new_story").click(function(event) {
 		event.preventDefault();

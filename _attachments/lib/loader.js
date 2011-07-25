@@ -11,6 +11,7 @@ app_load([
   "vendor/backbone/underscore.js",
 	"vendor/backbone/backbone.js",
 	"vendor/backbone/backbone.couch.js",
+	"vendor/mustache/jquery.mustache.js",
   // models for the application
   "lib/models/story.js",
   "lib/models/state.js",

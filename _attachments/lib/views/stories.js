@@ -25,6 +25,7 @@ var BoardStoryView = Backbone.View.extend({
 		$("#stories").append(view.render())
 	},
 	addAll: function(){
+		$("#stories").empty();
 		this.collection.each(this.addOne);
 	}
 });
