@@ -31,7 +31,6 @@ var boardWidget = function() {
   };
 
   var add_edit_link = function() {
-    $.log("Adding callback to something...");
     $(".edit_story").click(function(event) {
       event.preventDefault();
       $.showDialog("add_story_dialog.html?story_id=" + $(event.target).attr("id"), {
