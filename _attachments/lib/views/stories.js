@@ -49,6 +49,7 @@ var FullStoryView = Backbone.View.extend({
     this.model = options.model || new StoryModel();
     this.model.bind("change", this.render);
     this.model.view = this;
+    this.default_target = options.default_target;
   },
 
   render: function() {
@@ -64,8 +65,16 @@ var FullStoryView = Backbone.View.extend({
     }
     // Add the tags back
     _.each(story_tags, function(tag){$("#tags").addTag(tag);});
-    // TODO: Deal with story targets
-    //$("#target").val(this.model.get("story_target"));
+    // Create target selector
+    if ($.widgets.target) {
+      this.target = $.widgets.target.initialise({
+        selector: "#story_target",
+        default_target: this.model.get("story_target") || this.default_target,
+        null_target: "No target"
+      });
+    } else {
+      $.log("Cannot create target selector as widget not loaded");
+    }
   },
 
   save: function() {
@@ -85,7 +94,7 @@ var FullStoryView = Backbone.View.extend({
     this.model.set({
       story_name: $("#name").val(),
       story_description: $("#description").val(),
-      story_target: $("#target").val(),
+      story_target: this.target.get_current_target(),
       story_tags:$("#tags").val().split(',')
     });
   }

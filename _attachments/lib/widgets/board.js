@@ -35,11 +35,7 @@ var boardWidget = function() {
       event.preventDefault();
       $.showDialog("add_story_dialog.html?story_id=" + $(event.target).attr("id"), {
         load: function(elem) {
-          // Note: Doing the $.couch.app stuff here means we can create a closure
-          // referencing the story id. The story widget can then use the id to load
-          // the story data. I can't think of another way of getting the story id
-          // to the story widget.
-          $.widgets.story.initialise($(event.target).attr("id") || undefined);
+          $.widgets.story.initialise({storyId: $(event.target).attr("id") || undefined});
         }
       })
     });

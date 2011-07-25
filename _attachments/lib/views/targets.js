@@ -1,6 +1,6 @@
 var BoardTargetView = Backbone.View.extend({
   tagname: "select",
-  template: 'Target:<select id="targets"><option selected="selected">All</option>{{#targets}}<option id="{{name}}">{{name}}</option>{{/targets}}</select>',
+  template: 'Target:<select id="targets"><option selected="selected">{{null_target}}</option>{{#targets}}<option id="{{name}}">{{name}}</option>{{/targets}}</select>',
   events: {
     "change": "set_board_target"
   },
@@ -26,16 +26,19 @@ var BoardTargetView = Backbone.View.extend({
     $(this.selector).html(this.el);
 
     this.default_target = options.default_target;
+    this.null_target = options.null_target || "All";
     this.board = options.board;
   },
   render: function() {
-		var html = $(this.el).html($.mustache(this.template, {targets: this.collection.toJSON()}));
+		var html = $(this.el).html($.mustache(this.template, {null_target: this.null_target, targets: this.collection.toJSON()}));
     if (this.default_target) {
-      $(this.selector).val(this.default_target);
+      $(this.selector + " #targets").val(this.default_target);
     }
     return html;
 	},
 	set_board_target: function() {
-	  this.board.set_target($(this.selector + " select").val());
+	  if (this.board) {
+	    this.board.set_target($(this.selector + " select").val());
+	  }
 	}
 });
