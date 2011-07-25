@@ -9,6 +9,7 @@ var BoardView = Backbone.View.extend({
     this.states = args.states;
     this.stories = args.stories;
     this.trigger_func = args.trigger_func;
+    this.after = args.after;
 
     this.states.collection.bind('refresh', this.state_render);
     this.stories.collection.bind('add', this.story_render);
@@ -91,18 +92,18 @@ var BoardView = Backbone.View.extend({
 
 
   state_render: function(){
-    state_called = true;
-    if (story_called && state_called){ this.render(); };
+    this.state_called = true;
+    if (this.story_called && this.state_called){ this.render(); };
   },
 
   story_render: function(){
-    story_called = true;
-    if (story_called && state_called){ this.render(); };
+    this.story_called = true;
+    if (this.story_called && this.state_called){ this.render(); };
   },
 
   render: function(){
     var states = $("#states").text().split("\n");
-    if (story_called && state_called){
+    if (this.story_called && this.state_called){
     // TODO: use the collection instead of reading the textarea
       var stories = $("#stories").text().split("\n") || [];
       var states = $("#states").text().split(", ") || [];
@@ -116,6 +117,11 @@ var BoardView = Backbone.View.extend({
     } else {
       $.log('render called but collections not ready');
     };
+    // Call any functions that might want to be triggered once
+    // rendering is complete
+    _.each(this.after, function(func) {
+      func();
+    });
   }
 
 });
