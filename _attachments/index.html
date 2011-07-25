@@ -11,19 +11,21 @@
      See MIT license at bottom.
 -->
     <title>Couch Kanban Board</title>
-    <script src="vendor/couchapp/loader.js"></script>
+    <script src="vendor/couchdb/loader.js"></script>
+    <script src="vendor/jquery.utils/jquery.utils.js"></script>
     <script src="scripts/sizzle.js"></script>
     <script src="scripts/jquery.dragsort-0.4.1.js"></script>
-		<script src="vendor/backbone/underscore.js"></script>
-		<script src="vendor/backbone/backbone.js"></script>
-		<script src="vendor/backbone/backbone.couch.js"></script>
-		<script src="lib/editstory/loader.js"></script>
-    <script src="lib/target_widget.js"></script>
+
+		<script src="lib/loader.js"></script>
 
 		<link rel="stylesheet" type="text/css" href="vendor/jqueryui/jquery.tagsinput.css" />
 		<link rel="stylesheet" type="text/css" href="vendor/jqueryui/jquery.selectBox.css" />
 
   	<link rel="stylesheet" href="style/main.css" type="text/css">
+		<style>
+		#Done .box { background-color: #00aa00; color: #ffffff; }
+
+		</style>
   </head>
   <body>
   <br/>
@@ -33,22 +35,16 @@
     <div class="clear"></div>
     <a id="new_story" class="altbutton" href="#dummy"><center>New story</center></a>
     <div class="clear"></div>
-    <a id="data_link" class="button" href="#" style=""><center>Data</center></a>
-    <a id="board_link" class="button" href="#"><center>Board</center></a>
+    <a id="burndown_link" class="button" href="burndown.html"><center>Burndown</center></a>
     <div class="clear"></div>
     <a id="about_link" class="altbutton" href="about.html"><center>About</center></a>
-    <div class="clear"></div>
-    <a id="burndown_link" class="button" href="burndown.html"><center>Burndown</center></a>
-
-
   </div>
 
   <div id="kanban">
     <h1 id="board_name">Board Name</h1>
     <div id="output"></div>
-    <textarea id="data_output" rows="20" cols="100"></textarea>
-    <div id="stories_container" style="visibility: hidden;"></div>
-    <div id="states_container" style="visibility: hidden;"></div>
+    <textarea id="stories" style="visibility: hidden;" rows="20" cols="100"></textarea>
+    <textarea id="states" style="visibility: hidden;" rows="20" cols="100"></textarea>
     <div class="push"></div>
   </div>
 
@@ -65,138 +61,33 @@
 <script language="JavaScript">
 
   $("SELECT").selectBox();
-  $("#board_link").hide();
-  $("#data_output").hide();
-  var init_board = function(stories) {
-  	var board = {};
-  	for ( var i=0, len=stories.length; i<len; i++ ) {
-  		var story = stories[i].split(",");
-  		var state = story[0];
-  		if (story.length == 3) {
-  			if (! board[state]) {
-  				board[state] = [];
-  			}
-  			board[state].push(story);
-  		}
-  	}
-  	return board;
-  }
 
-  var create_list = function(board, state) {
-  	var list = $("<ul class=\"state\" id=\"" + state.replace(" ", "") + "\"></ul>");
-    if (board[state]) {
-      for (var i=0, len=board[state].length; i<len; i++) {
-        if (state == "Done") {
-          var story_element = $("<li><div class=\"box box_" + state.replace(" ", "")  + "\">" + board[state][i][2] + "<br/><a id=\"" + board[state][i][1] + "\" class=\"Archive\" href=\"#" + board[state][i][1] +"\">archive</a></div></li>");
-        } else {
-          var story_element = $("<li><div class=\"box box_" + state.replace(" ", "")  + "\">" + board[state][i][2] + "<br/><a class=\"edit_story\" id=\"" + board[state][i][1] + "\" href=\"edit_story.html?story=" + board[state][i][1] + "\">edit &#8883;</a></div></li>");
-        }
-        story_element.data("story",  board[state][i]);
-  			list.append(story_element);
-      }
-  	};
-  	return list;
-  }
+	var app = $.couch.utils.getAppInfo();
 
-  var create_column = function(board, state) {
-  	var state_column = $("<div class=\"dp10" + ((! /Ready$/.test(state.replace(" ", ""))) ? "" : " queue_column")+ "\"></div>")
-  	state_column.append($("<div class=\"headline\">" + state + "</div>"));
-  	state_column.append(create_list(board, state));
-  	state_column.data("state", state);
-  	return state_column;
-  }
+  // Set up couchdb-backbone connector
+  Backbone.couch.databaseName = app.db_name;
+  Backbone.couch.ddocName = app.ddoc;
+  Backbone.couch.enableChangesFeed = false;
+  Backbone.couch.debug = false;
 
-  var create_board = function(app_data) {
-  	var table = $("<div id=\"board\"></div>");
-  	var ids = "";
-  	for (j=0; j< app_data.states.length; j++) {
-  		var state = app_data.states[j];
-  		if (state.length){
-    		ids += "#" + state.replace(" ", "") + ",";
-    		var state_column = create_column(app_data.board, state);
-    		table.append(state_column);
-  		}
-  	}
-  	ids += "#" + "Done,";
-  	var done_column = create_column(app_data.board, 'Done');
-		table.append(done_column);
-    $(ids, table).dragsort({ dragEnd: trigger_state_update, dragBetween: true });
-  	return table;
-  }
+	(function($) {
+	  $.widgets = $.widgets || {};
+	  $.widgets.board = boardWidget;
+	  $.widgets.story = storyWidget;
+	  $.widgets.tags = tagWidget;
+	})(jQuery);
 
-  var trigger_state_update = function() {
-    // Dragsort sets the current object to the dragged item and
-    // we use the id of the a element for the id
-    story_id = $("a", this).attr("id");
-    $("#stories").trigger("update_state", story_id);
-  }
-
-  var get_data = function() {
-    var data = "";
-    $("#board .dp10").each(function() {
-      var state = $(this).data("state");
-      $(this).find("li").each( function() {
-        var story = $(this).data("story");
-        data += state + "," + story[1] + "," + story[2] + "\n";
-      });
-    });
-    return data;
-  }
-
-  $("#board_link").click(function () {
-    var state_data = $("#states").text().split("\n");
-    var app_data = {
-      board: init_board($("#data_output").val().split("\n")),
-      states: state_data
-    };
-    $("##kanban").empty();
-    $("#kanban").append(create_board(app_data));
-    $("#kanban").show();
-    $("#data_link").show();
-    $("#data_output").hide();
-    $("#board_link").hide();
-  })
-
-  $("#data_link").click(function () {
-    var data = get_data();
-    $("#data_output").val(data);
-    $("#kanban").hide();
-    $("#data_link").hide();
-    $("#data_output").show();
-    $("#board_link").show();
-  });
-
-  $.couch.app(function(app) {
-		$.widgets.target(app);
-		app.db.openDoc('instance', {
-		    success: function(doc) {
-          document.title = 'Couch Kanban Board: ' + doc.name;
-          $("#board_name").text(doc.name);
-		    },
-        error : function() {
-          document.title = 'Couch Kanban Board: ' + app.db.name;
-          $("#board_name").text(app.db.name);
-        }
-		  });
-    $("#states_container").evently("states", app);
-    $("#stories_container").evently("stories", app);
-    $("#tag_cloud").evently("tag_cloud", app);
-  });
+	$.widgets.board();
+	$.widgets.tags();
 
 	$("#new_story").click(function(event) {
 		event.preventDefault();
 		$.showDialog("add_story_dialog.html", {
-			load: function(elem) {
-				$.couch.app(function(app) {
-      		$.widgets.story(app);
-      	});
-		  }
+		  load: function(elem) {
+		    $.widgets.story.initialise();
+	    }
 		});
-		//var target = $("#targets").val();
-		//var firstState = $("#states").text().split("\n")[0];
-		//$(location).attr("href", "edit_story.html?story_target=" + target + "&story_state=" + firstState);
 	});
-
 </script>
 
 <!--

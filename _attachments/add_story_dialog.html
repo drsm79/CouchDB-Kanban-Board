@@ -1,14 +1,3 @@
-<script>
-  $('#tags').tagsInput({
-		'height':'57px',
-		'width':'250px',
-		'unique':true
-		//TODO		'autocomplete_url': '_view/tag-cloud?group=true'
-  });
-  //$.couch.app(function(app) { // TODO this _should_ be here - work out how to pass in story id some other way
-  //  $.widgets.story(app);
-  //});
-</script>
 <div id="story">
 	<form>
 		<table width="500">
@@ -42,7 +31,7 @@
 				</td>
 			<tr>
 				<td align="center" width="225">
-					<button type="submit" id="save">Save</button>
+					<button type="button" id="save">Save</button>
 				</td>
 				<td align="center" width="225">
 					<button type="button" class="cancel">Cancel</input>
@@ -51,3 +40,11 @@
 		</table>
 	</form>
 </div>
+<script>
+  $('#tags').tagsInput({
+		'height':'57px',
+		'width':'250px',
+		'unique':true,
+		'autocomplete_url': '_list/tags/tag-cloud?reduce=false'
+  });
+</script>

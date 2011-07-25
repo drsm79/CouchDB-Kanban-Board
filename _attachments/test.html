@@ -1,0 +1,106 @@
+<html>
+<head>
+  <title>Testing backbone.js models, collections and views</title>
+ 	<script src="vendor/couchdb/loader.js"></script>
+	<script src="lib/loader.js"></script>
+</head>
+
+<body>
+	<table cellspacing=10>
+	  <tr>
+	    <td valign="top">
+      	<h1>Backbone Test</h1>
+      </td>
+      <td valign="top" align="right">
+      	<h2>DB Info</h2>
+      </td>
+      <td valign="top">
+      	<p id="db_name"><b>Name : </b></p>
+      	<p id="ddoc_name"><b>Design Doc : </b></p>
+    	</td>
+	  </tr>
+	  <tr>
+      <td valign="top">
+      	<h2>Test Story</h2>
+      </td>
+      <td valign="top">
+      	<h2>Test State</h2>
+      </td>
+      <td valign="top">
+      	<h2>Test Target</h2>
+    	</td>
+	  </tr>
+	  <tr>
+      <td valign="top">
+      	<h3>Model</h3>
+      	<textarea rows="5" cols="40"id="story_model"></textarea>
+      </td>
+      <td valign="top">
+    	  <h3>Model</h3>
+    	  <textarea rows="5" cols="40"id="state_model"></textarea>
+      </td>
+      <td valign="top">
+    	  <h3>Model</h3>
+      	<p>There's no single model for Targets, they are derived from a view, not documents.</p>
+    	</td>
+	  </tr>
+	  <tr>
+      <td valign="top">
+      	<h3>Collection</h3>
+      	<textarea rows="5" cols="40"id="stories"></textarea>
+      </td>
+      <td valign="top">
+      	<h3>Collection</h3>
+      	<textarea rows="5" cols="40"id="states"></textarea>
+      </td>
+      <td valign="top">
+      	<h3>Collection</h3>
+      	<textarea rows="5" cols="40"id="targets"></textarea>
+      </td>
+    </tr>
+  </table>
+</body>
+
+<script>
+
+	var testWidget = function(database, design) {
+	  // Set up couchdb-backbone connector
+	  Backbone.couch.databaseName = database;
+	  Backbone.couch.ddocName = design;
+	  Backbone.couch.enableChangesFeed = false;
+	  Backbone.couch.debug = false;
+
+    // Stories
+
+    var storyModel = new StoryModel({id: "e03cee25de4e0f9fc15b497a6300101b"});
+    storyModel.fetch();
+    $("#story_model").html(storyModel.toSource());
+
+    var myTestStoryView = new BoardStoryView(new StoriesCollection);
+		myTestStoryView.collection.fetch();
+    // States
+
+    var stateModel = new StateModel({id: 'New'});
+    stateModel.fetch();
+    $("#state_model").html(stateModel.toSource());
+
+    var myTestStateView = new BoardStateView(new StateCollection);
+		myTestStateView.collection.fetch();
+    // Targets
+
+    var myTestTargetView = new BoardTargetView(new TargetCollection);
+	};
+
+	(function($) {
+	  $.widgets = $.widgets || {}
+	  $.widgets.test = testWidget;
+	})(jQuery);
+
+	app = $.couch.utils.getAppInfo();
+	$("#db_name").append(app.db_name);
+	$("#ddoc_name").append(app.ddoc);
+
+	$.widgets.test(app.db_name, app.ddoc);
+</script>
+
+</html>

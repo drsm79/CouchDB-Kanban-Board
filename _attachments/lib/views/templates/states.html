@@ -1,0 +1,10 @@
+<div id="states">{{#states}}{{#value}}{{name}}
+{{/value}}{{/states}}</div>
+<style>
+{{#states}}
+ {{#value}}
+   #{{id}} .box { {{#colours}}background-color: {{background-color}}; color: {{color}};{{/colours}}}
+ {{/value}}
+{{/states}}
+ #Done .box { background-color: #00aa00; color: #ffffff; }
+</style>
