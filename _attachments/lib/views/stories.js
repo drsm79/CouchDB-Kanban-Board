@@ -17,12 +17,13 @@ var BoardStoryView = Backbone.View.extend({
 	  _.bindAll(this, 'addOne', 'addAll');
 	  this.collection = collection;
     this.collection.bind('add',     this.addOne);
+    this.collection.bind('change',   this.addAll);
     this.collection.bind('refresh',   this.addAll);
 		this.collection.bind('reset', this.addAll);
   },
 	addOne: function(story) {
 		var view = new ShortStoryView({model: story});
-		$("#stories").append(view.render())
+		$("#stories").append(view.render());
 	},
 	addAll: function(){
 		this.collection.each(this.addOne);
@@ -51,8 +52,6 @@ var FullStoryView = Backbone.View.extend({
   },
 
   render: function() {
-    $.log("Rendering");
-    $.log(this.model.toJSON());
     $("#name").val(this.model.get("story_name"));
     $("#description").val(this.model.get("story_description"));
     // Tags are "special"
@@ -68,10 +67,9 @@ var FullStoryView = Backbone.View.extend({
   },
 
   save: function() {
-    $.log('save called');
     this.update();
     if (this.model.isNew()){
-      $.board.stories.collection.add(this.model);
+      $.widgets.board.stories.collection.add(this.model);
     }
     this.model.save();
     $("#dialog").fadeOut("fast", function() {
@@ -88,5 +86,4 @@ var FullStoryView = Backbone.View.extend({
       story_tags:$("#tags").val().split(',')
     });
   }
-
 });

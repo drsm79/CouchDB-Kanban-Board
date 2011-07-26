@@ -38,6 +38,9 @@
     <a id="burndown_link" class="button" href="burndown.html"><center>Burndown</center></a>
     <div class="clear"></div>
     <a id="about_link" class="altbutton" href="about.html"><center>About</center></a>
+    <div class="clear"></div>
+		<a class="button" href="javascript:void(0)" onClick="var myurl=window.location.href;myurl=myurl.split('/_')[0];var url='http://localhost:5984/replicateme/_design/ReplicateMe/index.html?url=' + myurl;window.location = url;"><center>ReplicateMe!</center></a>
+
   </div>
 
   <div id="kanban">
@@ -70,21 +73,20 @@
   Backbone.couch.enableChangesFeed = false;
   Backbone.couch.debug = false;
 
+	// $.widgets are the widgets that make up the application that need to be
+	// accessed by other widgets - things like story widget come and go.
 	(function($) {
 	  $.widgets = $.widgets || {};
-	  $.widgets.board = boardWidget;
-	  $.widgets.story = storyWidget;
-	  $.widgets.tags = tagWidget;
 	})(jQuery);
 
-	$.widgets.board();
-	$.widgets.tags();
+	boardWidget.initialise(); // creates $.widgets.board
+	tagWidget.initialise(); // creates $.widgets.tags
 
 	$("#new_story").click(function(event) {
 		event.preventDefault();
 		$.showDialog("add_story_dialog.html", {
 		  load: function(elem) {
-		    $.widgets.story.initialise();
+		    storyWidget.initialise();
 	    }
 		});
 	});
