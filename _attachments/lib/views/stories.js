@@ -51,6 +51,7 @@ var FullStoryView = Backbone.View.extend({
     this.model.bind("change", this.render);
     this.model.view = this;
     this.default_target = options.default_target;
+    this.after = options.after;
   },
 
   render: function() {
@@ -76,6 +77,9 @@ var FullStoryView = Backbone.View.extend({
     } else {
       $.log("Cannot create target selector as widget not loaded");
     }
+    _.each(this.after, function(func) {
+      func();
+    });
   },
 
   save: function() {

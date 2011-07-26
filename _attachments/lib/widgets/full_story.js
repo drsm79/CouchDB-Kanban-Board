@@ -3,13 +3,25 @@
 //
 var storyWidget = {
   initialise : function(options) {
-    this.storyModel = new StoryModel({id: options.storyId});
-    this.storyView = new FullStoryView({model: this.storyModel, default_target: options.default_target});
+    var storyModel = new StoryModel({id: options.storyId});
+    var storyView = new FullStoryView({
+      model: storyModel,
+      default_target: options.default_target
+    });
+
+    if (options.board) {
+      var update_story_on_board = function() {
+        var newStory = options.board.stories.collection.get(options.storyId);
+        newStory.set(storyModel.changedAttributes());
+      };
+      storyView.after = [update_story_on_board];
+    }
+
     if (options.storyId) {
-      this.storyModel.fetch();
+      storyModel.fetch();
     } else {
       // Manual call render to display the default story
-      this.storyView.render();
+      storyView.render();
     }
   }
 };

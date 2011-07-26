@@ -35,7 +35,7 @@ var boardWidget = function() {
       event.preventDefault();
       $.showDialog("add_story_dialog.html?story_id=" + $(event.target).attr("id"), {
         load: function(elem) {
-          $.widgets.story.initialise({storyId: $(event.target).attr("id") || undefined});
+          $.widgets.story.initialise({storyId: $(event.target).attr("id") || undefined, board: $.board});
         }
       })
     });
