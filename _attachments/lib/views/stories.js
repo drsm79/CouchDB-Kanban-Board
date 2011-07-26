@@ -19,6 +19,7 @@ var BoardStoryView = Backbone.View.extend({
     this.collection.bind('add',     this.addOne);
     this.collection.bind('refresh',   this.addAll);
 		this.collection.bind('reset', this.addAll);
+		this.collection.bind('change', this.addAll);
   },
 	addOne: function(story) {
 		var view = new ShortStoryView({model: story});
