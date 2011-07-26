@@ -15,6 +15,7 @@ var BoardView = Backbone.View.extend({
     this.stories.collection.bind('add', this.story_render);
     this.stories.collection.bind('refresh', this.story_render);
     this.stories.collection.bind('change', this.story_render);
+    this.stories.collection.bind('remove', this.story_render);
 
     this.states.collection.fetch();
     this.stories.collection.fetch();

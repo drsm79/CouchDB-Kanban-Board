@@ -80,13 +80,13 @@
 	$.widgets.board();
 	$.widgets.tags();
 	// TODO $.widgets.target needs to return something
-  var target = $.widgets.target.initialise({selector: "#target", board: $.board}); // TODO remove $.board if poss
+  $.board.target = $.widgets.target.initialise({selector: "#target", board: $.board}); // TODO remove $.board if poss
 
 	$("#new_story").click(function(event) {
 		event.preventDefault();
 		$.showDialog("add_story_dialog.html", {
 		  load: function(elem) {
-		    $.widgets.story.initialise({default_target: target.get_current_target()});
+		    $.widgets.story.initialise({default_target: $.board.target.get_current_target()});
 	    }
 		});
 	});

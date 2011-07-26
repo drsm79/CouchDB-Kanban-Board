@@ -20,6 +20,7 @@ var BoardStoryView = Backbone.View.extend({
     this.collection.bind('refresh',   this.addAll);
 		this.collection.bind('reset', this.addAll);
 		this.collection.bind('change', this.addAll);
+		this.collection.bind('remove', this.addAll);
   },
 	addOne: function(story) {
 		var view = new ShortStoryView({model: story});
@@ -91,6 +92,10 @@ var FullStoryView = Backbone.View.extend({
         if (!$.board.stories.collection.get(model.get("_id"))) {
           if (!that.default_target || (that.default_target == model.get("story_target") || that.default_target == "All")) {
             $.board.stories.collection.add(model); // Do this after save so we have an _id
+          }
+        } else {
+          if (that.default_target && that.default_target != model.get("story_target") && that.default_target != "All") {
+            $.board.stories.collection.remove(model);
           }
         }
       }

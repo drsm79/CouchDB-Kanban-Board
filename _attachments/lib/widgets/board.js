@@ -35,7 +35,12 @@ var boardWidget = function() {
       event.preventDefault();
       $.showDialog("add_story_dialog.html?story_id=" + $(event.target).attr("id"), {
         load: function(elem) {
-          $.widgets.story.initialise({storyId: $(event.target).attr("id") || undefined, board: $.board});
+          $.widgets.story.initialise({
+            storyId: $(event.target).attr("id") || undefined,
+            board: $.board,
+            // I don't like this - relies on $.board.target being set (which will normally, but not necessarily be the case)
+            default_target: $.board.target.get_current_target()
+          });
         }
       })
     });
