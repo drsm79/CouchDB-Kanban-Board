@@ -80,11 +80,14 @@ var FullStoryView = Backbone.View.extend({
 
   save: function() {
     $.log('save called');
+    var that = this;
     this.update();
     this.model.save(undefined, {
       success: function(model, response) {
         if (!$.board.stories.collection.get(model.get("_id"))) {
-          $.board.stories.collection.add(model); // Do this after save so we have an _id
+          if (!that.default_target || (that.default_target == model.get("story_target") || that.default_target == "All")) {
+            $.board.stories.collection.add(model); // Do this after save so we have an _id
+          }
         }
       }
     });
