@@ -1,6 +1,6 @@
 var BoardTargetView = Backbone.View.extend({
   tagname: "select",
-  template: 'Target:<select id="targets">{{#condition}}<option selected="selected">{{null_target}}</option>{{/condition}}{{#targets}}<option id="{{name}}">{{name}}</option>{{/targets}}</select>',
+  template: 'Target:<select id="targets">{{#top_targets}}<option id={{name}}>{{name}}</option>{{/top_targets}}<optgroup label="----------">{{#targets}}<option id="{{name}}">{{name}}</option>{{/targets}}</optgroup></select>',
   events: {
     "change": "set_board_target"
   },
@@ -26,16 +26,16 @@ var BoardTargetView = Backbone.View.extend({
     $(this.selector).html(this.el);
 
     this.default_target = options.default_target;
-    this.null_target = options.null_target || "All";
+    this.null_target = options.null_target;
     this.board = options.board;
   },
   render: function() {
     var to_render = {targets: this.collection.toJSON()};
-    var that = this;
-    if (!this.collection.some(function(model) { return model.toJSON().name == that.null_target })) {
-      to_render.null_target = this.null_target;
-      to_render.condition = function() { return true };
+    to_render.top_targets = [];
+    if (this.null_target) {
+      to_render.top_targets.push({name: this.null_target});
     }
+    to_render.top_targets.push({name: 'No target'});
 		var html = $(this.el).html($.mustache(this.template, to_render));
     if (this.default_target) {
       $(this.selector + " #targets").val(this.default_target);

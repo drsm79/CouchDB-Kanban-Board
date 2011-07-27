@@ -79,7 +79,6 @@ var FullStoryView = Backbone.View.extend({
       this.target = targetWidget.initialise({
         selector: "#story_target",
         default_target: story_target,
-        null_target: "No target",
         local: true
       });
     } else {
@@ -95,12 +94,13 @@ var FullStoryView = Backbone.View.extend({
     this.update();
     this.model.save(undefined, {
       success: function(model, response) {
+        var story_target = model.get("story_target") || "No target";
         if (!$.widgets.board.stories.collection.get(model.get("_id"))) {
-          if (!that.default_target || (that.default_target == model.get("story_target") || that.default_target == "All")) {
+          if (!that.default_target || (that.default_target == story_target || that.default_target == "All")) {
             $.widgets.board.stories.collection.add(model); // Do this after save so we have an _id
           }
         } else {
-          if (that.default_target && that.default_target != model.get("story_target") && that.default_target != "All") {
+          if (that.default_target && that.default_target != story_target && that.default_target != "All") {
             $.widgets.board.stories.collection.remove(model);
           }
         }
