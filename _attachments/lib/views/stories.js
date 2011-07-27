@@ -67,10 +67,18 @@ var FullStoryView = Backbone.View.extend({
     // Add the tags back
     _.each(story_tags, function(tag){$("#tags").addTag(tag);});
     // Create target selector
+    var story_target = this.model.get("story_target");
+    if (!story_target) {
+      if (this.model.isNew()) {
+        story_target = this.default_target;
+      } else {
+        story_target = "No target";
+      }
+    }
     if (targetWidget) {
       this.target = targetWidget.initialise({
         selector: "#story_target",
-        default_target: this.model.get("story_target") || this.default_target,
+        default_target: story_target,
         null_target: "No target",
         local: true
       });
@@ -105,11 +113,19 @@ var FullStoryView = Backbone.View.extend({
   },
 
   update: function() {
-    this.model.set({
+    var attributes = {
       story_name: $("#name").val(),
       story_description: $("#description").val(),
-      story_target: this.target.get_current_target(),
       story_tags:$("#tags").val().split(',')
-    });
+    };
+    var target = this.target.get_current_target();
+    if (target == "No target") {
+      if (this.model.attributes.story_target) {
+        this.model.unset("story_target");
+      }
+    } else {
+      attributes.story_target = target;
+    }
+    this.model.set(attributes);
   }
 });
