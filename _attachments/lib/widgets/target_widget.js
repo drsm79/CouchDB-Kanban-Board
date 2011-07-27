@@ -6,6 +6,12 @@ var targetWidget = {
     operations = {
       get_current_target: function() {
     	  return $(targetView.selector +  " select").val();
+    	},
+    	add_target: function(target) {
+    	  if (!targetView.collection.some(function(model) { return model.toJSON().name == target })) {
+    	    targetView.default_target = target;
+    	    targetView.collection.add({name: target});
+    	  }
     	}
     };
 

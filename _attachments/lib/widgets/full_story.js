@@ -17,6 +17,12 @@ var storyWidget = {
       storyView.after = [update_story_on_board];
     }
 
+    // Add new target code
+    $("#add_target").click(function() {
+      var new_target = prompt("Enter new target:");
+      storyView.target.add_target(new_target);
+    });
+
     if (options.storyId) {
       storyModel.fetch();
     } else {
