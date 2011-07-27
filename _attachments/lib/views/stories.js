@@ -1,34 +1,21 @@
-var ShortStoryView = Backbone.View.extend({
-  // A view for a single story - needed because the model can be edited
-  initialize: function() {
-    _.bindAll(this, 'render');
-    this.model.bind('change', this.render);
-    this.model.view = this;
-  },
-	render: function() {
-		data = this.model.attributes;
-		return [data.story_state, data._id, data.story_name].join(',') + "\n"
-	}
-});
-
 var BoardStoryView = Backbone.View.extend({
 	// A view for a collection of stories
 	initialize: function(collection) {
-	  _.bindAll(this, 'addOne', 'addAll');
+	  _.bindAll(this, 'render');
 	  this.collection = collection;
-    this.collection.bind('add',     this.addOne);
-    this.collection.bind('refresh',   this.addAll);
-		this.collection.bind('reset', this.addAll);
-		this.collection.bind('change', this.addAll);
-		this.collection.bind('remove', this.addAll);
+    this.collection.bind('add',     this.render);
+    this.collection.bind('refresh',   this.render);
+		this.collection.bind('reset', this.render);
+		this.collection.bind('change', this.render);
+		this.collection.bind('remove', this.render);
   },
-	addOne: function(story) {
-		var view = new ShortStoryView({model: story});
-		$("#stories").append(view.render());
-	},
-	addAll: function(){
-		$("#stories").empty();
-		this.collection.each(this.addOne);
+	render: function() {
+	  var output = [];
+	  this.collection.forEach(function(model) {
+	    var data = model.attributes;
+	    output.push([data.story_state, data._id, data.story_name].join(","));
+    });
+    return output;
 	}
 });
 
