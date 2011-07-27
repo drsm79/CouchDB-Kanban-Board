@@ -24,7 +24,7 @@ var BoardStoryView = Backbone.View.extend({
   },
 	addOne: function(story) {
 		var view = new ShortStoryView({model: story});
-		$("#stories").append(view.render())
+		$("#stories").append(view.render());
 	},
 	addAll: function(){
 		$("#stories").empty();
@@ -56,8 +56,6 @@ var FullStoryView = Backbone.View.extend({
   },
 
   render: function() {
-    $.log("Rendering");
-    $.log(this.model.toJSON());
     $("#name").val(this.model.get("story_name"));
     $("#description").val(this.model.get("story_description"));
     // Tags are "special"
@@ -69,8 +67,8 @@ var FullStoryView = Backbone.View.extend({
     // Add the tags back
     _.each(story_tags, function(tag){$("#tags").addTag(tag);});
     // Create target selector
-    if ($.widgets.target) {
-      this.target = $.widgets.target.initialise({
+    if (targetWidget) {
+      this.target = targetWidget.initialise({
         selector: "#story_target",
         default_target: this.model.get("story_target") || this.default_target,
         null_target: "No target"
@@ -84,18 +82,17 @@ var FullStoryView = Backbone.View.extend({
   },
 
   save: function() {
-    $.log('save called');
     var that = this;
     this.update();
     this.model.save(undefined, {
       success: function(model, response) {
-        if (!$.board.stories.collection.get(model.get("_id"))) {
+        if (!$.widgets.board.stories.collection.get(model.get("_id"))) {
           if (!that.default_target || (that.default_target == model.get("story_target") || that.default_target == "All")) {
-            $.board.stories.collection.add(model); // Do this after save so we have an _id
+            $.widgets.board.stories.collection.add(model); // Do this after save so we have an _id
           }
         } else {
           if (that.default_target && that.default_target != model.get("story_target") && that.default_target != "All") {
-            $.board.stories.collection.remove(model);
+            $.widgets.board.stories.collection.remove(model);
           }
         }
       }
@@ -114,5 +111,4 @@ var FullStoryView = Backbone.View.extend({
       story_tags:$("#tags").val().split(',')
     });
   }
-
 });

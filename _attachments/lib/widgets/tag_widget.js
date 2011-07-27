@@ -1,3 +1,5 @@
-var tagWidget = function() {
-  var tagsView = new TagsView(new TagsCollection);
+var tagWidget = {
+  initialise : function() {
+    $.widgets.tags = tagsView = new TagsView(new TagsCollection);
+  }
 };

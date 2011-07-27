@@ -11,7 +11,10 @@ var BoardView = Backbone.View.extend({
     this.trigger_func = args.trigger_func;
     this.after = args.after;
 
+    // bind state changes
     this.states.collection.bind('refresh', this.state_render);
+
+    // bind story changes
     this.stories.collection.bind('add', this.story_render);
     this.stories.collection.bind('refresh', this.story_render);
     this.stories.collection.bind('change', this.story_render);
@@ -20,7 +23,6 @@ var BoardView = Backbone.View.extend({
     this.states.collection.fetch();
     this.stories.collection.fetch();
   },
-
   init_board: function(stories) {
     Backbone.couch.db().openDoc('instance', {
       success: function(doc) {
@@ -60,7 +62,6 @@ var BoardView = Backbone.View.extend({
         list.append(story_element);
       }
     };
-    list.foo = function(){$.log('foo')};
     return list;
   },
 
