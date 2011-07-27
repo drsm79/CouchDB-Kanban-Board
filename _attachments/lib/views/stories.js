@@ -71,7 +71,8 @@ var FullStoryView = Backbone.View.extend({
       this.target = targetWidget.initialise({
         selector: "#story_target",
         default_target: this.model.get("story_target") || this.default_target,
-        null_target: "No target"
+        null_target: "No target",
+        local: true
       });
     } else {
       $.log("Cannot create target selector as widget not loaded");
