@@ -1,7 +1,7 @@
 var boardWidget = {
   initialise : function() {
     var stateView = new BoardStateView(new StateCollection);
-  	var storyView = new BoardStoryView(new StoriesCollection);
+    var storyView = new BoardStoryView(new StoriesCollection);
     $.widgets.board = {};
 
     var trigger_state_update = function() {
@@ -13,6 +13,12 @@ var boardWidget = {
       // Need to get the model from the collection so everything gets refreshed
       // TODO: check that can't use new StoryModel({id: story_id})
       var model = $.widgets.board.stories.collection.get(story_id);
+
+      // Before sending any HTTP requests, check if the state has actually changed
+      if (model.get("story_state") == new_state) {
+        return; // Quietly exit
+      }
+
       // Need to fetch the model to make sure the _rev is set. Once fetched can
       // save the updated story to the database.
       var that = this;
@@ -23,7 +29,7 @@ var boardWidget = {
           var old_state = model.get('story_state');
           model.save({story_state: new_state});
           if (old_state == "Done" || new_state == "Done") {
-            var story_element = "<div class=\"box box_" + new_state + "\">"
+            var story_element = "<div class=\"box box_" + new_state + "\">";
             story_element += model.get('story_name');
             story_element += "<br/><a id=\"" + model.id;
 
@@ -49,15 +55,17 @@ var boardWidget = {
         event.preventDefault();
         $.showDialog("add_story_dialog.html?story_id=" + $(event.target).attr("id"), {
           load: function(elem) {
-            // Note: Doing the $.couch.app stuff here means we can create a closure
-            // referencing the story id. The story widget can then use the id to load
-            // the story data. I can't think of another way of getting the story id
-            // to the story widget.
-            storyWidget.initialise($(event.target).attr("id") || undefined);
+            storyWidget.initialise({
+              storyId: $(event.target).attr("id") || undefined,
+              board: $.widgets.board,
+              // I don't like this - relies on $.widgets.target being set (which will normally, but not necessarily, be the case)
+              default_target: $.widgets.target.get_current_target(),
+              targets_collection: $.widgets.target.get_collection()
+            });
           }
-        })
+        });
       });
-    }
+    };
 
     // Bind the board to the jquery global namespace
     $.widgets.board = new BoardView({

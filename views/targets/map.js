@@ -2,6 +2,9 @@ function(doc) {
   if (doc.story_target){
     emit(doc.story_target, 1);
   } else {
-    emit("No target", 1);
+    // Only emit "No target" for documents that are stories
+    if (doc.story_name) {
+      emit("No target", 1);
+    }
   }
 };
