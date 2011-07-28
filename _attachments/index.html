@@ -78,13 +78,13 @@
 
 	boardWidget.initialise(); // creates $.widgets.board
 	tagWidget.initialise(); // creates $.widgets.tags
-  targetWidget.initialise({selector: "#target", board: $.widgets.board, null_target: "All"}); // creates $.widgets.target
+  targetWidget.initialise({selector: "#target", board: $.widgets.board, null_target: "All", fetch: true}); // creates $.widgets.target
 
 	$("#new_story").click(function(event) {
 		event.preventDefault();
 		$.showDialog("add_story_dialog.html", {
 		  load: function(elem) {
-		    storyWidget.initialise({default_target: $.widgets.target.get_current_target()});
+		    storyWidget.initialise({default_target: $.widgets.target.get_current_target(), targets_collection: $.widgets.target.get_collection()});
 	    }
 		});
 	});

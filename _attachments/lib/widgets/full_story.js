@@ -6,7 +6,8 @@ var storyWidget = {
     var storyModel = new StoryModel({id: options.storyId});
     var storyView = new FullStoryView({
       model: storyModel,
-      default_target: options.default_target
+      default_target: options.default_target,
+      targets_collection: options.targets_collection
     });
 
     if (options.board) {

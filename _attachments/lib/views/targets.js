@@ -19,8 +19,6 @@ var BoardTargetView = Backbone.View.extend({
 	  this.collection.bind('reset', this.render);
 	  this.collection.bind('change', this.render);
 	  this.collection.bind('add', this.render);
-    // This fetches but doesn't fire refresh/reset
-    this.collection.fetch();
 
     this.selector = options.selector;
     $(this.selector).html(this.el);
@@ -28,8 +26,18 @@ var BoardTargetView = Backbone.View.extend({
     this.default_target = options.default_target;
     this.null_target = options.null_target;
     this.board = options.board;
+
+    // This fetches but doesn't fire refresh/reset
+    if (options.fetch) {
+      this.collection.fetch();
+    } else {
+      this.render();
+    }
   },
   render: function() {
+    if (!this.ignore_previous_target) {
+      var previous_target = $(this.selector + " #targets").val();
+    }
     var to_render = {targets: this.collection.toJSON()};
     to_render.top_targets = [];
     if (this.null_target) {
@@ -37,8 +45,9 @@ var BoardTargetView = Backbone.View.extend({
     }
     to_render.top_targets.push({name: 'No target'});
 		var html = $(this.el).html($.mustache(this.template, to_render));
-    if (this.default_target) {
-      $(this.selector + " #targets").val(this.default_target);
+    var selected_target = previous_target || this.default_target;
+    if (selected_target) {
+      $(this.selector + " #targets").val(selected_target);
     }
     return html;
 	},

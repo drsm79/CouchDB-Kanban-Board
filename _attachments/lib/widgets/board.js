@@ -59,7 +59,8 @@ var boardWidget = {
               storyId: $(event.target).attr("id") || undefined,
               board: $.widgets.board,
               // I don't like this - relies on $.widgets.target being set (which will normally, but not necessarily, be the case)
-              default_target: $.widgets.target.get_current_target()
+              default_target: $.widgets.target.get_current_target(),
+              targets_collection: $.widgets.target.get_collection()
             });
           }
         });

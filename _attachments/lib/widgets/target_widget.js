@@ -1,6 +1,8 @@
 var targetWidget = {
   initialise: function(options) {
-    options.collection = new TargetCollection;
+    if (!options.collection) {
+      options.collection = new TargetCollection;
+    }
     var targetView = new BoardTargetView(options);
 
     operations = {
@@ -9,9 +11,13 @@ var targetWidget = {
     	},
     	add_target: function(target) {
     	  if (!targetView.collection.some(function(model) { return model.toJSON().name == target })) {
+          targetView.ignore_previous_target = true;
     	    targetView.default_target = target;
     	    targetView.collection.add({name: target});
-    	  }
+        }
+      },
+      get_collection: function() {
+        return targetView.collection;
     	}
     };
 
