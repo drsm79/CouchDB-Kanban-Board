@@ -10,7 +10,7 @@ var BoardView = Backbone.View.extend({
     this.stories = args.stories;
     this.trigger_func = args.trigger_func;
     this.after = args.after;
-
+    
     // bind state changes
     this.states.collection.bind('refresh', this.state_render);
 
@@ -128,11 +128,7 @@ var BoardView = Backbone.View.extend({
   },
 
   set_target: function(target){
-    if (target == "All") {
-      delete(this.stories.collection.options.key);
-    } else {
-      this.stories.collection.options.key = target;
-    }
-    this.stories.collection.fetch();
+    this.stories.set_target(target);
+    this.render();
   }
 });

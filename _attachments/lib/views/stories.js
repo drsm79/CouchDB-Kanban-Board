@@ -8,14 +8,30 @@ var BoardStoryView = Backbone.View.extend({
 		this.collection.bind('reset', this.render);
 		this.collection.bind('change', this.render);
 		this.collection.bind('remove', this.render);
+		this.shown_target = "All";
   },
 	render: function() {
 	  var output = [];
-	  this.collection.forEach(function(model) {
+	  var that = this;
+	  var to_show = this.collection.filter(function(story){
+	    if ("All" === that.shown_target){
+	      return true;
+	    } else if (that.shown_target == "No target") {
+	      if (story.get("story_target") == ""){
+	        return true;
+	      }
+	    } else {
+	      return story.get("story_target") === that.shown_target;
+      }
+    })
+	  to_show.forEach(function(model) {
 	    var data = model.attributes;
 	    output.push([data.story_state, data._id, data.story_name].join(","));
     });
     return output;
+	},
+	set_target: function(target) {
+	  this.shown_target = target || this.shown_target;
 	}
 });
 
