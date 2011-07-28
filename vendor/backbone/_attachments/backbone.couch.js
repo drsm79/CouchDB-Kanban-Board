@@ -221,12 +221,15 @@
 
       db.view(query, options);
 
-      var model = new collection.model;
+      // MW I see what this is trying to do but I don't see why it would ever work...
+      /*var model = new collection.model;
       if (! model.url ) {
         throw new Error( "No 'url' property on collection.model!" );
       }
 
       var type = this.getType(new collection.model);
+      */
+      var type = collection.url;
       if ( !this._watchList[ type ] ) {
         this._watchList[ type ] = collection;
       }
@@ -266,6 +269,7 @@
           that.changesFeed = db.changes( since, { include_docs: true, limit:10 } );
           that.changesFeed.onChange( function( changes ) {
             _.each( changes.results, function( row ) {
+              $.log("Got change", row);
               var doc = row.doc;
               var handlerDefined = typeof that.ddocChangeHandler === "function";
               var docHandlerDefined = typeof that.docChangeHandler === "function";
@@ -277,25 +281,32 @@
 
               if ( docHandlerDefined && ( id != currentDdoc)) {
                 that.docChangeHandler(id);
-              } else if ( doc.type ) {
-                var collection = that._watchList[ doc.type ];
-                if ( collection ) {
-                  var model = collection.get( id );
-                  if ( model ) {
-                    if ( model && doc._rev != model.get( "_rev" ) ) {
-                      model.set(doc);
+              } else {
+                _.each(that._watchList, function(collection) {
+                  if ( collection ) {
+                    $.log("Looking for " + id + " in " + collection.url);
+                    var model = collection.get( id );
+                    if ( model ) {
+                      $.log("Updating model");
+                      if ( model && doc._rev != model.get( "_rev" ) ) {
+                        model.set(doc);
+                      }
+                    } else {
+                      $.log("About to handle_change", collection);
+                      if ( !doc.id ) { doc.id = doc._id; }
+                      if (collection.handle_change) {
+                        collection.handle_change(doc);
+                      }
                     }
-                  } else {
-                    if ( !doc.id ) { doc.id = doc._id; }
-                    collection.add(doc);
                   }
-                }
+                });
               }
             })
           });
         },
         error: function () {
           that.log("problem with db connection");
+          Backbone.couch.startingChanges = false;
         }
       })
     },
@@ -356,7 +367,8 @@
      */
     runChangesFeed: function() {
       // run changes changes feed handler
-      if( Backbone.couch.enableChangesFeed && !Backbone.couch.changesFeed ) {
+      if( Backbone.couch.enableChangesFeed && !Backbone.couch.changesFeed && !Backbone.couch.startingChanges) {
+        Backbone.couch.startingChanges = true;
         Backbone.couch._changes();
       }
     }
