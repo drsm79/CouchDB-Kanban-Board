@@ -13,7 +13,9 @@ var targetWidget = {
     	  if (!targetView.collection.some(function(model) { return model.toJSON().name == target })) {
           targetView.ignore_previous_target = true;
     	    targetView.default_target = target;
+          targetView.collection.bind("add", targetView.render);
     	    targetView.collection.add({name: target});
+          targetView.collection.unbind("add", targetView.render);
         }
       },
       get_collection: function() {
