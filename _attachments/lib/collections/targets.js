@@ -6,13 +6,16 @@ var TargetCollection = Backbone.Collection.extend({
     success: function( result ) {
       var models = [];
       _.each( result.rows, function( row ) {
-        var model = {name: row.key};
-        if ( !model.id ) { model.id = row.id }
-        models.push( model );
+        if (row.key != "No target") { // Discard "No target" state
+          var model = {name: row.key};
+          if ( !model.id ) { model.id = row.id }
+          models.push( model );
+        }
       });
-      // if no result then should result null
-      if ( models.length == 0 ) { models = null }
       return models;
     }
-	}
+	},
+	comparator: function(target) {
+    return target.get("name");
+  }
 });

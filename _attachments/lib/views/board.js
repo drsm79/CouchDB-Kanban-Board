@@ -10,13 +10,16 @@ var BoardView = Backbone.View.extend({
     this.stories = args.stories;
     this.trigger_func = args.trigger_func;
     this.after = args.after;
-
+    
     // bind state changes
     this.states.collection.bind('refresh', this.state_render);
 
     // bind story changes
     this.stories.collection.bind('add', this.story_render);
     this.stories.collection.bind('refresh', this.story_render);
+    this.stories.collection.bind('change', this.story_render);
+    this.stories.collection.bind('remove', this.story_render);
+    this.stories.collection.bind('reset', this.story_render);
 
     this.states.collection.fetch();
     this.stories.collection.fetch();
@@ -103,11 +106,10 @@ var BoardView = Backbone.View.extend({
   },
 
   render: function(){
-    var states = $("#states").text().split("\n");
     if (this.story_called && this.state_called){
     // TODO: use the collection instead of reading the textarea
-      var stories = $("#stories").text().split("\n") || [];
-      var states = $("#states").text().split(", ") || [];
+      var stories = this.stories.render() || [];
+      var states = this.states.render() || [];//$("#states").text().split(", ") || [];
       var empty_board = this.init_board(stories);
       var app_data = {
         board: empty_board,
@@ -123,6 +125,10 @@ var BoardView = Backbone.View.extend({
     _.each(this.after, function(func) {
       func();
     });
-  }
+  },
 
+  set_target: function(target){
+    this.stories.set_target(target);
+    this.render();
+  }
 });
