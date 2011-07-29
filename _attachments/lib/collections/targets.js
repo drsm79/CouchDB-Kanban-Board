@@ -2,7 +2,7 @@ var TargetCollection = Backbone.Collection.extend({
   model : TargetModel,
   url : "targets",
   options : {
-    group_level: 1,
+    group: true,
     success: function( result ) {
       var models = [];
       _.each( result.rows, function( row ) {
