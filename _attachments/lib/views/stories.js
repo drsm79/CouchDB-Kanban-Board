@@ -1,12 +1,12 @@
 var BoardStoryView = Backbone.View.extend({
 	// A view for a collection of stories
 	initialize: function(collection) {
-	  _.bindAll(this, 'render');
+	  _.bindAll(this, 'render', 'handle_change', 'update_tags');
 	  this.collection = collection;
     this.collection.bind('add',     this.render);
     this.collection.bind('refresh',   this.render);
 		this.collection.bind('reset', this.render);
-		this.collection.bind('change', this.render);
+		this.collection.bind('change', this.handle_change);
 		this.collection.bind('remove', this.render);
 		this.shown_target = "All";
   },
@@ -32,7 +32,42 @@ var BoardStoryView = Backbone.View.extend({
 	},
 	set_target: function(target) {
 	  this.shown_target = target || this.shown_target;
-	}
+	},
+	handle_change: function() {
+	  var that = this;
+	  this.collection.forEach(function(model) {
+      if (model.hasChanged()) {
+        that.update_tags(model, model.previousAttributes());
+      }
+	  });
+	  this.render();
+	},
+  update_tags: function(model, previousAttributes) {
+    if (previousAttributes.story_tags) {
+      var new_tags = model.get('story_tags');
+      var old_tags = previousAttributes.story_tags;
+      if (previousAttributes.story_target != model.get('story_target')) {
+        // If target has changed remove them from old target and add them to new target
+        _.each(old_tags, function(old_tag) {
+          $.widgets.tags.remove_tag(old_tag, previousAttributes.story_target);
+        });
+        _.each(new_tags, function(new_tag) {
+          $.widgets.tags.add_tag(new_tag, model.get('story_target'));
+        });
+      } else {
+        _.each(new_tags, function(new_tag) {
+          if (!_.include(old_tags, new_tag)) {
+            $.widgets.tags.add_tag(new_tag, model.get('story_target'));
+          }
+        });
+        _.each(old_tags, function(old_tag) {
+          if (!_.include(new_tags, old_tag)) {
+            $.widgets.tags.remove_tag(old_tag, model.get('story_target'));
+          }
+        });
+      }
+    }
+  }
 });
 
 var FullStoryView = Backbone.View.extend({
@@ -96,6 +131,7 @@ var FullStoryView = Backbone.View.extend({
 
   save: function() {
     var that = this;
+    var previousAttributes = this.model.toJSON();
     this.update();
     this.model.save(undefined);
     $("#dialog").fadeOut("fast", function() {
