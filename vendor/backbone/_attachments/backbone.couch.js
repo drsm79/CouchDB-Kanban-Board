@@ -269,7 +269,6 @@
           that.changesFeed = db.changes( since, { include_docs: true, limit:10 } );
           that.changesFeed.onChange( function( changes ) {
             _.each( changes.results, function( row ) {
-              $.log("Got change", row);
               var doc = row.doc;
               var handlerDefined = typeof that.ddocChangeHandler === "function";
               var docHandlerDefined = typeof that.docChangeHandler === "function";
@@ -284,15 +283,12 @@
               } else {
                 _.each(that._watchList, function(collection) {
                   if ( collection ) {
-                    $.log("Looking for " + id + " in " + collection.url);
                     var model = collection.get( id );
                     if ( model ) {
-                      $.log("Updating model");
                       if ( model && doc._rev != model.get( "_rev" ) ) {
                         model.set(doc);
                       }
                     } else {
-                      $.log("About to handle_change", collection);
                       if ( !doc.id ) { doc.id = doc._id; }
                       if (collection.handle_change) {
                         collection.handle_change(doc);
