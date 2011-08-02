@@ -5,7 +5,7 @@ var targetWidget = {
     }
     var targetView = new BoardTargetView(options);
 
-    operations = {
+    var operations = {
       get_current_target: function() {
     	  return $(targetView.selector +  " select").val();
     	},
