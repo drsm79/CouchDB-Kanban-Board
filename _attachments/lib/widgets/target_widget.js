@@ -5,7 +5,7 @@ var targetWidget = {
     }
     var targetView = new BoardTargetView(options);
 
-    operations = {
+    var operations = {
       get_current_target: function() {
     	  return $(targetView.selector +  " select").val();
     	},
@@ -20,7 +20,11 @@ var targetWidget = {
       },
       get_collection: function() {
         return targetView.collection;
-    	}
+      },
+      bind_to_event: function(event, func) {
+        // Note: Can't use targetView.delegateEvents as this would kill any existing bindings
+        $(targetView.el).bind(event, func);
+      }
     };
 
     if (!options.local) {
