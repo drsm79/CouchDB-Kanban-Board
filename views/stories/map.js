@@ -4,6 +4,6 @@ function(doc) {
      if (!key) {
        key = "No target";
      }
-     emit(key, {story_state: doc.story_state, story_target:doc.story_target, _id: doc._id, story_name: doc.story_name});
+     emit(key, {story_state: doc.story_state, story_target:doc.story_target, _id: doc._id, story_name: doc.story_name, story_tags: doc.story_tags});
   }
 }
