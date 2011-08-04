@@ -67,12 +67,20 @@ var boardWidget = {
       });
     };
 
+    var add_archive_link = function() {
+      $(".archive_story").click(function(event) {
+        event.preventDefault();
+        var story_id = $(event.target).attr("id");
+        var model_to_archive = $.widgets.board.stories.collection.get(story_id);
+        model_to_archive.save({'story_state': 'Archived'});
+      });
+    };
     // Bind the board to the jquery global namespace
     $.widgets.board = new BoardView({
       states: stateView,
       stories: storyView,
       trigger_func: trigger_state_update,
-      after: [add_edit_link]
+      after: [add_edit_link, add_archive_link]
     });
 
     $.log('initialised board');

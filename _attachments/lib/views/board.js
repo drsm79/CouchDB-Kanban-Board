@@ -10,7 +10,7 @@ var BoardView = Backbone.View.extend({
     this.stories = args.stories;
     this.trigger_func = args.trigger_func;
     this.after = args.after;
-    
+
     // bind state changes
     this.states.collection.bind('refresh', this.state_render);
 
@@ -55,7 +55,7 @@ var BoardView = Backbone.View.extend({
     if (board[state]) {
       for (var i=0, len=board[state].length; i<len; i++) {
         if (state == "Done") {
-          var story_element = $("<li><div class=\"box box_" + state + "\">" + board[state][i][2] + "<br/><a id=\"" + board[state][i][1] + "\" class=\"Archive\" href=\"#" + board[state][i][1] +"\">archive</a></div></li>");
+          var story_element = $("<li><div class=\"box box_" + state + "\">" + board[state][i][2] + "<br/><a id=\"" + board[state][i][1] + "\" class=\"archive_story\" href=\"#" + board[state][i][1] +"\">archive</a></div></li>");
         } else {
           var story_element = $("<li><div class=\"box box_" + state + "\">" + board[state][i][2] + "<br/><a class=\"edit_story\" id=\"" + board[state][i][1] + "\" href=\"#" + board[state][i][1] + "\">edit &#8883;</a></div></li>");
         }
