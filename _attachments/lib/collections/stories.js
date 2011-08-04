@@ -5,7 +5,6 @@ var StoriesCollection = Backbone.Collection.extend({
     reduce: false
 	},
   handle_change: function(doc) {
-    $.log("Maybe updating", doc);
     var localModel = new this.model();
     var attributes = localModel.toJSON();
     if (_.all(attributes, function(value, key) {
