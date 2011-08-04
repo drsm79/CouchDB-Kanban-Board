@@ -95,7 +95,12 @@ var FullStoryView = Backbone.View.extend({
   },
 
   render: function() {
-    $("#name").val(this.model.get("story_name"));
+    if (this.model.isNew()){
+      $("#dialog_title").html("Edit story:");
+    } else {
+      $("#dialog_title").html("Add story:");
+    }
+    $("#story_name").val(this.model.get("story_name"));
     $("#description").val(this.model.get("story_description"));
     // Tags are "special"
     story_tags = this.model.get("story_tags");
@@ -124,6 +129,15 @@ var FullStoryView = Backbone.View.extend({
     } else {
       $.log("Cannot create target selector as widget not loaded");
     }
+
+    _.each($.widgets.board.states.collection.models, function(state){
+      if (state.get('id') == this.model.get('story_state')) {
+        $('#story_state').append('<option selected="selected" value="' + state.get('id') + '">' + state.get('name') + '</option>');
+      } else {
+        $('#story_state').append('<option value="' + state.get('id') + '">' + state.get('name') + '</option>');
+      }
+    }, this);
+
     _.each(this.after, function(func) {
       func();
     });
@@ -142,9 +156,10 @@ var FullStoryView = Backbone.View.extend({
 
   update: function() {
     var attributes = {
-      story_name: $("#name").val(),
+      story_name: $("#story_name").val(),
       story_description: $("#description").val(),
-      story_tags:$("#tags").val().split(',')
+      story_tags: $("#tags").val().split(','),
+      story_state: $("#story_state").val()
     };
     var target = this.target.get_current_target();
     if (target == "No target") {

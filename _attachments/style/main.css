@@ -70,8 +70,8 @@ font-weight: 300;
 
 #story_name {
 display: block;
-font-size: 2em;
-font-weight: bold;
+font-size: 2.5em;
+font-weight: 300;
 }
 
 input, textarea {
@@ -183,7 +183,7 @@ box-shadow: 5px 5px 10px #000000;
 -webkit-box-shadow: 5px 5px 10px #000000;
 padding: 1em;
 width: 500px;
-height: 310px;
+height: 350px;
 display: block;
 }
 

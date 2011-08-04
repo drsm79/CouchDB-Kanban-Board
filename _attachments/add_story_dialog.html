@@ -3,8 +3,8 @@
 		<table width="500">
 			<tr>
 				<td colspan=2 align="left" valign="middle">
-					<div style="float:left;"><h1>Add story:</h1></div>
-					<div style="float:left;"><input type="text" size="15" value="" id="name" class="dirty"></div>
+					<div style="float:left;"><h1 id="dialog_title"></h1></div>
+					<div style="float:left;"><input type="text" size="12" value="" id="story_name" class="dirty"></div>
 				</td>
 			</tr>
 			<tr>
@@ -17,8 +17,8 @@
 					<input name="tags" id="tags" value=""/>
 				</td>
 				<td align="center" width="200">
-					<div id='story_target'>
-					</div>
+					<div>State:<select id='story_state'></select></div>
+					<div id='story_target'></div>
 					<p><a href="#" id="add_target">Add new</a></p>
 					<div style="visibility:hidden">
 						<input id='story_target' type="text" size="15"/>
