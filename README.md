@@ -1,8 +1,8 @@
 Kanban Couch
 ===========================
-[http://kanbancouch.posterous.com/](blog)
-[https://drsm79.cloudant.com/couch-kanban/_design/kanbancouch/index.html](our board)
-[https://github.com/drsm79/CouchDB-Kanban-Board/](the code)
+ * [blog](http://kanbancouch.posterous.com/)
+ * [our board](https://drsm79.cloudant.com/couch-kanban/_design/kanbancouch/index.html)
+ * [the code](https://github.com/drsm79/CouchDB-Kanban-Board/)
 
 Installation
 --------------------------
