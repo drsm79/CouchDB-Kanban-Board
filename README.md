@@ -1,6 +1,7 @@
 Kanban Couch
 ===========================
 Information about the project:
+
  * Project [blog](http://kanbancouch.posterous.com/)
  * Project [board](https://drsm79.cloudant.com/couch-kanban/_design/kanbancouch/index.html)
  * Project [code](https://github.com/drsm79/CouchDB-Kanban-Board/)
