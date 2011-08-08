@@ -5,7 +5,9 @@ var tagWidget = {
 
     var operations = {
       add_tag: function(tag, target) {
-        var current_tag = tagsView.collection.filter(function(model) { return (model.get('name') == tag && model.get('target') == target)})[0];
+        var current_tag = tagsView.collection.filter(function(model) {
+           return (model.get('name') == tag && model.get('target') == target)
+        })[0];
         if (current_tag) {
           current_tag.set({size: current_tag.get('size') + 1});
         } else {

@@ -19,7 +19,6 @@ var BoardView = Backbone.View.extend({
     this.stories.collection.bind('refresh', this.story_render);
     this.stories.collection.bind('change', this.story_render);
     this.stories.collection.bind('remove', this.story_render);
-    this.stories.collection.bind('reset', this.story_render);
 
     this.states.collection.fetch();
     this.stories.collection.fetch();
@@ -94,7 +93,6 @@ var BoardView = Backbone.View.extend({
     return table;
   },
 
-
   state_render: function(){
     this.state_called = true;
     if (this.story_called && this.state_called){ this.render(); };
@@ -127,8 +125,16 @@ var BoardView = Backbone.View.extend({
     });
   },
 
+  // It's possible that the render calls here will be called before the
+  // collections are ready, but that should be a non-issue as the target widget
+  // will take care to show the right things...
   set_target: function(target){
     this.stories.set_target(target);
+    this.render();
+  },
+
+  set_tag: function(tag){
+    this.stories.set_tag(tag);
     this.render();
   }
 });

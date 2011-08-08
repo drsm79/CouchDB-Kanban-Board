@@ -5,14 +5,15 @@ var BoardStoryView = Backbone.View.extend({
 	  this.collection = collection;
     this.collection.bind('add',     this.render);
     this.collection.bind('refresh',   this.render);
-		this.collection.bind('reset', this.render);
 		this.collection.bind('change', this.handle_change);
 		this.collection.bind('remove', this.render);
 		this.shown_target = "All";
+		this.shown_tag = "";
   },
 	render: function() {
 	  var output = [];
 	  var that = this;
+	  // filter by target
 	  var to_show = this.collection.filter(function(story){
 	    if ("All" === that.shown_target){
 	      return true;
@@ -24,6 +25,15 @@ var BoardStoryView = Backbone.View.extend({
 	      return story.get("story_target") === that.shown_target;
       }
     })
+    // filter by tag
+    to_show = to_show.filter(function (story){
+      if ("" === that.shown_tag) {
+        return true;
+      }
+      else {
+        return _.include(story.get("story_tags"), that.shown_tag);
+      }
+    })
 	  to_show.forEach(function(model) {
 	    var data = model.attributes;
 	    output.push([data.story_state, data._id, data.story_name].join(","));
@@ -32,6 +42,14 @@ var BoardStoryView = Backbone.View.extend({
 	},
 	set_target: function(target) {
 	  this.shown_target = target || this.shown_target;
+	},
+	set_tag: function(tag) {
+	  if (tag === ""){
+	    // reset the tag - special case as "" is undefined for ||
+	    this.shown_tag = "";
+	  } else {
+	    this.shown_tag = tag || this.shown_tag;
+	  }
 	},
 	handle_change: function() {
 	  var that = this;

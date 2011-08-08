@@ -17,7 +17,6 @@ var BoardTargetView = Backbone.View.extend({
 
     if (options.bind_collection) {
       this.collection.bind('refresh', this.render);
-      this.collection.bind('reset', this.render);
       this.collection.bind('change', this.render);
       this.collection.bind('add', this.render);
     }
@@ -26,7 +25,7 @@ var BoardTargetView = Backbone.View.extend({
     $(this.selector).html(this.el);
 
     this.default_target = options.default_target;
-    this.null_target = options.null_target;
+    this.null_target = options.null_target || "All";
     this.board = options.board;
 
     // This fetches but doesn't fire refresh/reset
@@ -37,25 +36,27 @@ var BoardTargetView = Backbone.View.extend({
     }
   },
   render: function() {
-    if (!this.ignore_previous_target) {
-      var previous_target = $(this.selector + " #targets").val();
-    }
     var to_render = {targets: this.collection.toJSON()};
+    // Remove null_target from the collection, since it'll be in the top_targets
+    to_render.targets = _.reject(to_render.targets, function(item){
+      return item.name === this.null_target;
+    }, this);
     to_render.top_targets = [];
     if (this.null_target) {
       to_render.top_targets.push({name: this.null_target});
     }
     to_render.top_targets.push({name: 'No target'});
 		var html = $(this.el).html($.mustache(this.template, to_render));
-    var selected_target = previous_target || this.default_target;
-    if (selected_target) {
-      $(this.selector + " #targets").val(selected_target);
+    if (this.default_target) {
+      $(this.selector + " #targets").val(this.default_target);
     }
     return html;
 	},
 	set_board_target: function() {
-	  if (this.board) {
-	    this.board.set_target($(this.selector + " select").val());
-	  }
+	  // Change the URL (so people can copy/paste it, bookmark it) and rely on
+	  // the Router to actually change the board, via the target widget
+    var base_url = document.location.href.split('#')[0];
+	  var new_url = base_url + "#t=" + $(this.selector + " select").val()
+	  document.location.href = new_url;
 	}
 });

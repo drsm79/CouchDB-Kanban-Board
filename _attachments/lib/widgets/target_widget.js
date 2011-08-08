@@ -24,6 +24,10 @@ var targetWidget = {
       bind_to_event: function(event, func) {
         // Note: Can't use targetView.delegateEvents as this would kill any existing bindings
         $(targetView.el).bind(event, func);
+      },
+      set_current_target: function(target) {
+        targetView.default_target = target;
+        targetView.render();
       }
     };
 

@@ -1,3 +1,36 @@
+var BoardRouter = Backbone.Controller.extend({
+  routes: {
+    "tag=:tag": "tag",
+    "g=:tag": "tag",
+    "target=:target": "target",
+    "t=:target": "target",
+    // Now we get into combinatorics...
+    "t=:target/tag=:tag": "tag_and_target",
+    "t=:target/g=:tag": "tag_and_target",
+    "target=:target/tag=:tag": "tag_and_target",
+    "target=:target/g=:tag": "tag_and_target",
+    "tag=:tag/t=:target": "tag_and_target",
+    "g=:tag/t=:target": "tag_and_target",
+    "target=:target": "tag_and_target",
+    "g=:tag/target=:target": "tag_and_target"
+  },
+
+  target: function(target) {
+    $.widgets.board.set_target(target);
+    $.widgets.target.set_current_target(target);
+    $.widgets.board.set_tag("");
+  },
+
+  tag: function(tag) {
+    $.widgets.board.set_tag(tag);
+  },
+  tag_and_target: function(target, tag) {
+    this.target(target);
+    this.tag(tag);
+  }
+
+});
+
 var boardWidget = {
   initialise : function() {
     var stateView = new BoardStateView(new StateCollection);
@@ -59,7 +92,7 @@ var boardWidget = {
               storyId: $(event.target).attr("id") || undefined,
               board: $.widgets.board,
               // I don't like this - relies on $.widgets.target being set (which will normally, but not necessarily, be the case)
-              default_target: $.widgets.target.get_current_target(),
+              default_target: $.widgets.target.get_current_target() | "All",
               targets_collection: $.widgets.target.get_collection()
             });
           }

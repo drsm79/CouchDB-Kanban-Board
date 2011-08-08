@@ -1,5 +1,5 @@
 //
-// The controller ties everything together into a single widget
+// This ties everything together into a single widget
 //
 var storyWidget = {
   initialise : function(options) {
@@ -27,7 +27,7 @@ var storyWidget = {
     if (options.storyId) {
       storyModel.fetch();
     } else {
-      // Manual call render to display the default story
+      // Manually call render to display the default story
       storyView.render();
     }
   }

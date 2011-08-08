@@ -7,7 +7,6 @@ var TagsView = Backbone.View.extend({
     this.board_target.bind_to_event("change", this.render);
 
 	  this.collection.bind('refresh', this.render);
-	  this.collection.bind('reset', this.render);
 	  this.collection.bind('change', this.render);
 	  this.collection.bind('add', this.render);
 	  this.collection.bind('remove', this.render);
@@ -23,7 +22,7 @@ var TagsView = Backbone.View.extend({
 		  var sorted_data = this.sort_tags(data, 'All');
 		}
 		_.each(sorted_data, function(tag) {
-		  $("#tag_cloud").append('<font size="' + tag.get('size') + '">' + tag.get('name') + "</font> ");
+		  $("#tag_cloud").append('<font size="' + tag.get('size') + '"><a class="tagcloud" href="#tag=' + tag.get('name') + '">' + tag.get('name') + '</a></font> ');
 		});
 	},
 	sort_tags: function(models, target) {
