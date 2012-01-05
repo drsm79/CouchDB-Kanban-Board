@@ -4,7 +4,7 @@ var BoardStateView = Backbone.View.extend({
 	  _.bindAll(this, 'render');
 	  this.collection = collection;
     this.collection.bind('add',     this.render);
-    this.collection.bind('refresh',   this.render);
+    this.collection.bind('reset',   this.render);
   },
   render: function() {
     var output = [];

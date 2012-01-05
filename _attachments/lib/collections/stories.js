@@ -1,9 +1,7 @@
 var StoriesCollection = Backbone.Collection.extend({
   url : "stories",
   model : StoryModel,
-  options : {
-    reduce: false
-	},
+  doreduce: false,
   handle_change: function(doc) {
     var localModel = new this.model();
     var attributes = localModel.toJSON();
