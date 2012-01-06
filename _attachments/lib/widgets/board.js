@@ -1,4 +1,4 @@
-var BoardRouter = Backbone.Controller.extend({
+var BoardRouter = Backbone.Router.extend({
   routes: {
     "tag=:tag": "tag",
     "g=:tag": "tag",
@@ -32,7 +32,7 @@ var BoardRouter = Backbone.Controller.extend({
 });
 
 var boardWidget = {
-  initialise : function() {
+  initialise : function() { 
     var stateView = new BoardStateView(new StateCollection);
     var storyView = new BoardStoryView(new StoriesCollection);
     $.widgets.board = {};

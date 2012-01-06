@@ -6,7 +6,7 @@ var TagsView = Backbone.View.extend({
     this.board_target = options.board_target;
     this.board_target.bind_to_event("change", this.render);
 
-	  this.collection.bind('refresh', this.render);
+	  this.collection.bind('reset', this.render);
 	  this.collection.bind('change', this.render);
 	  this.collection.bind('add', this.render);
 	  this.collection.bind('remove', this.render);

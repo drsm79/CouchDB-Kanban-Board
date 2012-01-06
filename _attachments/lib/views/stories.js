@@ -4,7 +4,7 @@ var BoardStoryView = Backbone.View.extend({
 	  _.bindAll(this, 'render', 'handle_change', 'update_tags');
 	  this.collection = collection;
     this.collection.bind('add',     this.render);
-    this.collection.bind('refresh',   this.render);
+    this.collection.bind('reset',   this.render);
 		this.collection.bind('change', this.handle_change);
 		this.collection.bind('remove', this.render);
 		this.shown_target = "All";
