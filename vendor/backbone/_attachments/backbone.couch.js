@@ -102,7 +102,7 @@
 
       var db = this.db(),
         data = model.toJSON();
-      if ( !data.type ) { data.type = this.getType( model ); }
+      if ( !data.type && model.type ) { data.type = model.type; }
       if ( !data.id && data._id ) { data.id = data._id; }
       db.saveDoc( data, {
         success: function( respone ){
@@ -117,18 +117,25 @@
     },
 
     /**
-     * return type stored in model url property
+     * return type of a given collection
      *
-     * @param {Backbone.Model} model
+     * @param {Backbone.Collection} collection
      *
-     * @return type of model
+     * @return type of collection
      * @type String
      */
-    getType: function( model ) {
-      // previously, backbone.couch hijacked the url property to specify
-      // type. It's probably better to just call the attribute 'type' and
-      // not bother with url
-      return model.type || model.url;
+    getType: function( collection ) {
+      // Use the default model type if available
+      var type = new collection.model().type;
+      // Otherwise use the collection url
+      if ( !type ) {
+        this.log("Could not determine type of model, falling back to collection");
+        type = collection.url;
+        if ( !type ) {
+          throw new Error( "Could not determine type of model or collection" );
+        }
+      }
+      return type;
     },
 
     /**
@@ -268,12 +275,7 @@
       if(listName) db.list(query, viewName, options, {success: options.success, error: options.error});
       else         db.view(query, options);
 
-      var model = new collection.model;
-      if (! model.url ) {
-        throw new Error( "No 'url' property on collection.model!" );
-      }
-
-      var type = this.getType(new collection.model);
+      var type = this.getType( collection );
       if ( !this._watchList[ type ] ) {
         this._watchList[ type ] = collection;
       }
@@ -324,18 +326,34 @@
 
               if ( docHandlerDefined && ( id != currentDdoc)) {
                 that.docChangeHandler(id);
-              } else if ( doc.type ) {
-                var collection = that._watchList[ doc.type ];
-                if ( collection ) {
+              } else {
+                var add_or_update = function( collection, doc, id ) {
                   var model = collection.get( id );
                   if ( model ) {
                     if ( model && doc._rev != model.get( "_rev" ) ) {
                       model.set(doc);
                     }
                   } else {
-                    if ( !doc.id ) { doc.id = doc._id; }
+                    if ( !doc.id ) { doc.id = id; }
                     collection.add(doc);
                   }
+                };
+                if ( doc.type ) {
+                  var collection = that._watchList[ doc.type ];
+                  add_or_update( collection, doc, id );
+                } else {
+                  // No type field, so iterate through all collections
+                  _.each( that._watchList, function( collection ) {
+                    // Only add or update if the model duck-types to the
+                    // collection
+                    var model = new collection.model();
+                    var attributes = model.toJSON();
+                    if ( _.all( attributes, function( value, key ) {
+                      return key in doc;
+                    })) {
+                      add_or_update( collection, doc, id );
+                    }
+                  });
                 }
               }
             })
@@ -343,6 +361,7 @@
         },
         error: function () {
           that.log("problem with db connection");
+          Backbone.couch.startingChanges = false;
         }
       })
     },
@@ -403,7 +422,9 @@
      */
     runChangesFeed: function() {
       // run changes changes feed handler
-      if( Backbone.couch.enableChangesFeed && !Backbone.couch.changesFeed ) {
+      if( Backbone.couch.enableChangesFeed && !Backbone.couch.changesFeed
+          && !Backbone.couch.startingChanges ) {
+        Backbone.couch.startingChanges = true;
         Backbone.couch._changes();
       }
     }
