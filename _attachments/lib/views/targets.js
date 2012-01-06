@@ -16,7 +16,7 @@ var BoardTargetView = Backbone.View.extend({
 	  this.collection = options.collection;
 
     if (options.bind_collection) {
-      this.collection.bind('refresh', this.render);
+      this.collection.bind('reset', this.render);
       this.collection.bind('change', this.render);
       this.collection.bind('add', this.render);
     }
