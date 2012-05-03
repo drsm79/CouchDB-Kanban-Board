@@ -20,5 +20,6 @@ load_couchdb([
 */
   "vendor/jqueryui/jquery.selectBox.js",
   "vendor/jqueryui/jquery.tagsinput.js",
+  "vendor/jqueryui/jquery-ui-1.8.11.custom.min.js",
   "vendor/jquery.utils/jquery.utils.js"
 ])
