@@ -10,7 +10,7 @@ load_couchdb([
   "/_utils/script/json2.js",
   "/_utils/script/jquery.js",
   "/_utils/script/jquery.dialog.js",
-  "vendor/couchdb/jquery.couch.js",
+  "/_utils/script/jquery.couch.js",
   "vendor/couchdb/utils.js",
 /*
   "vendor/couchapp/jquery.couch.app.js",
