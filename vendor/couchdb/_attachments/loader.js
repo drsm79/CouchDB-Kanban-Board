@@ -10,7 +10,7 @@ load_couchdb([
   "/_utils/script/json2.js",
   "/_utils/script/jquery.js",
   "/_utils/script/jquery.dialog.js",
-  "vendor/couchdb/jquery.couch.js",
+  "/_utils/script/jquery.couch.js",
   "vendor/couchdb/utils.js",
 /*
   "vendor/couchapp/jquery.couch.app.js",
@@ -20,5 +20,6 @@ load_couchdb([
 */
   "vendor/jqueryui/jquery.selectBox.js",
   "vendor/jqueryui/jquery.tagsinput.js",
+  "vendor/jqueryui/jquery-ui-1.8.11.custom.min.js",
   "vendor/jquery.utils/jquery.utils.js"
 ])

@@ -10,7 +10,7 @@ Dependencies
 
 Pushing the application
 --------------------------
-A normal couchapp push should do the trick.
+A normal couchapp push after doing a couchapp init should do the trick.
 
 Adding states
 --------------------------
